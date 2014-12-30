@@ -6,8 +6,8 @@
 	git clone https://github.com/jgigault/42MapGenerator ~/42MapGenerator
 	cd ~/42MapGenerator && sh ./42MapGenerator.sh
 
-## supported maps
-* France
+## supported regions
+* France (and Overseas)
 * Europe
 * West Coast (North America)
 * Amazonia (South America)

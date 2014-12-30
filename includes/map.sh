@@ -53,6 +53,7 @@ then
 				""\
 				"" "use current configuration"\
 				config_path "change directory"
+			MYPATH=$(get_config "export_path")
 		fi
 		parse_map XXL "$MYPATH/$MAPFILENAME.XXL.fdf"
 		parse_map XL "$MYPATH/$MAPFILENAME.XL.fdf"

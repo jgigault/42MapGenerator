@@ -3,7 +3,7 @@
 if [ "$MAPGENERATOR_SH" == "1" ]
 then
 
-	declare -a MAPS='("http://professionnels.ign.fr/sites/default/files/" "France_250_ASC_L93" "France Métropolitaine" "http://professionnels.ign.fr/sites/default/files/" "Guadeloupe_MNT250_ASC" "Guadeloupe" "http://professionnels.ign.fr/sites/default/files/" "Martinique_MNT250_ASC" "Martinique" "http://professionnels.ign.fr/sites/default/files/" "Reunion_MNT250_ASC" "Réunion" "http://professionnels.ign.fr/sites/default/files/" "Guyane_MNT250_ASC" "Guyane" "http://professionnels.ign.fr/sites/default/files/" "ST_MART_ST_BART_MNT250_ASC" "Saint Martin - Saint Barthélémy")'
+	declare -a MAPS='("http://professionnels.ign.fr/sites/default/files/" "France_250_ASC_L93" "ign" "France Métropolitaine" "http://professionnels.ign.fr/sites/default/files/" "Guadeloupe_MNT250_ASC" "ign" "Guadeloupe" "http://professionnels.ign.fr/sites/default/files/" "Martinique_MNT250_ASC" "ign" "Martinique" "http://professionnels.ign.fr/sites/default/files/" "Reunion_MNT250_ASC" "ign" "Réunion" "http://professionnels.ign.fr/sites/default/files/" "Guyane_MNT250_ASC" "ign" "Guyane" "http://professionnels.ign.fr/sites/default/files/" "ST_MART_ST_BART_MNT250_ASC" "ign" "Saint Martin - Saint Barthélémy" "http://mapserver.ngdc.noaa.gov/cgi-bin/public/wcs/etopo1.asc?filename=NOAA_ETOPO_EUROPE.asc&request=getcoverage&version=1.0.0&service=wcs&coverage=etopo1&CRS=EPSG:4326&format=aaigrid&resx=0.016666666666666667&resy=0.016666666666666667&bbox=-13.0916666666666669285,35.5916666666666673785,31.6583333333333339665,59.0250000000000011805" "NOAA_ETOPO_EUROPE" "noaa" "Europe" "http://mapserver.ngdc.noaa.gov/cgi-bin/public/wcs/etopo1.asc?filename=NOAA_ETOPO_WEST_COAST.asc&request=getcoverage&version=1.0.0&service=wcs&coverage=etopo1&CRS=EPSG:4326&format=aaigrid&resx=0.016666666666666667&resy=0.016666666666666667&bbox=-127.3250000000000025465,14.0083333333333336135,-94.4416666666666685555,46.3250000000000009265" "NOAA_ETOPO_WEST_COAST" "noaa" "West Coast (North America)" "http://mapserver.ngdc.noaa.gov/cgi-bin/public/wcs/etopo1.asc?filename=NOAA_ETOPO_AMAZONIA.asc&request=getcoverage&version=1.0.0&service=wcs&coverage=etopo1&CRS=EPSG:4326&format=aaigrid&resx=0.016666666666666667&resy=0.016666666666666667&bbox=-82.8583333333333349905,-17.9916666666666670265,-33.3583333333333340005,13.2416666666666669315" "NOAA_ETOPO_AMAZONIA" "noaa" "Amazonia (South America)" "http://mapserver.ngdc.noaa.gov/cgi-bin/public/wcs/etopo1.asc?filename=NOAA_ETOPO_HIMALAYA.asc&request=getcoverage&version=1.0.0&service=wcs&coverage=etopo1&CRS=EPSG:4326&format=aaigrid&resx=0.016666666666666667&resy=0.016666666666666667&bbox=62.2583333333333345785,4.4750000000000000895,107.0916666666666688085,40.9250000000000008185" "NOAA_ETOPO_HIMALAYA" "noaa" "Himalaya (Asia)" "http://mapserver.ngdc.noaa.gov/cgi-bin/public/wcs/etopo1.asc?filename=NOAA_ETOPO_NEWZEALAND.asc&request=getcoverage&version=1.0.0&service=wcs&coverage=etopo1&CRS=EPSG:4326&format=aaigrid&resx=0.016666666666666667&resy=0.016666666666666667&bbox=165.4083333333333366415,-47.8250000000000009565,179.6083333333333369255,-33.8916666666666673445" "NOAA_ETOPO_NEWZEALAND" "noaa" "New Zealand")'
 
 	function gen_header
 	{
@@ -14,23 +14,31 @@ then
 
 	function gen_map
 	{
-		local MYCONF index MAPNAME MAPURL LHOME LPATH
+		local MYCONF index MAPNAME MAPURL LHOME LPATH MAPTYPE
 		local ERASE=0
 		local ERASE_ALL=0
 		LHOME=`echo "$HOME" | sed 's/\//\\\\\\//g'`
 		MYCONF=$(get_config "$1")
-		(( index=$1 * 3 ))
+		(( index=$1 * 4 ))
 		MAPURL=${MAPS[index]}
 		(( index=$index + 1 ))
 		MAPFILENAME=${MAPS[index]}
+		(( index=$index + 1 ))
+		MAPTYPE=${MAPS[index]}
 		(( index=$index + 1 ))
 		MAPNAME=${MAPS[index]}
 		local LIST=""
 
 		if [ ! -f "$RETURNPATH/tmp/$MAPFILENAME.txt" ]
 		then
-			download_map "$MAPURL$MAPFILENAME.zip" "$RETURNPATH/tmp/$MAPFILENAME.zip"
-			extract_map "$RETURNPATH/tmp" "$MAPFILENAME.zip"
+			if [ "$MAPTYPE" == "ign" ]
+			then
+				download_map "$MAPURL$MAPFILENAME.zip" "$RETURNPATH/tmp/$MAPFILENAME.zip"
+				extract_map "$RETURNPATH/tmp" "$MAPFILENAME.zip"
+			else
+				download_map "$MAPURL" "$RETURNPATH/tmp/$MAPFILENAME.asc"
+				mv "$RETURNPATH/tmp/$MAPFILENAME.asc" "$RETURNPATH/tmp/$MAPFILENAME.txt"
+			fi
 		fi
 		display_header
 		gen_header
@@ -153,7 +161,7 @@ then
 				"" "skip warning"
 		else
 
-			(cat "$RETURNPATH/tmp/$MAPFILENAME.txt" | awk -v step=$step -v zfactor=$zfactor -v unknown=$unknown -v water=$water 'BEGIN {odd=-1} {if(NR > 6) {odd+=1; if(odd==0) {for(i=1;i<=NF;i++) {if($i==-9999) {printf unknown} else {if($i==0) {printf water} else {printf("%d", $i/zfactor+1)}} i+=step; if(i>=NF) {printf "\n"} else {printf " "}}} else {if (odd>=step) {odd=-1}}}}' > "$2") &
+			(cat "$RETURNPATH/tmp/$MAPFILENAME.txt" | awk -v step=$step -v zfactor=$zfactor -v unknown=$unknown -v water=$water 'BEGIN {odd=-1} {if(NR > 6) {odd+=1; if(odd==0) {for(i=1;i<=NF;i++) {if($i==-9999) {printf unknown} else {if($i<=0) {printf water} else {printf("%d", $i/zfactor+1)}} i+=step; if(i>=NF) {printf "\n"} else {printf " "}}} else {if (odd>=step) {odd=-1}}}}' > "$2") &
 			display_spinner $!
 			LIST=$LIST"  -> $MAPFILENAME.$1.fdf\n"
 		fi
@@ -180,7 +188,7 @@ then
 		printf $C_BLUE"  Downloading map from remote server...\n  "
 		sleep 0.5
 		rm -f "$2"
-		curl --progress-bar --output "$2" "$1"
+		curl --output "$2" "$1"
 		printf $C_CLEAR""
 		if [ ! -f "$2" ]
 		then

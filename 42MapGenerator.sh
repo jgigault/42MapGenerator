@@ -40,15 +40,29 @@ function main
 	display_header
 	display_menu\
 		""\
+		main_france "France"\
+		"gen_map 6" "Europe"\
+		"gen_map 7" "West Coast (North America)"\
+		"gen_map 8" "Amazonia (South America)"\
+		"gen_map 9" "Himalaya (Asia)"\
+		"gen_map 10" "New Zealand"\
+		display_credits "CREDITS"\
+		"open https://github.com/jgigault/42MapGenerator/issues/new" "REPORT A BUG"\
+		exit_generator "EXIT"
+}
+
+function main_france
+{
+	display_header
+	display_menu\
+		""\
 		"gen_map 0" "France Métropolitaine"\
 		"gen_map 1" "DOM TOM: Guadeloupe"\
 		"gen_map 2" "DOM TOM: Martinique"\
 		"gen_map 3" "DOM TOM: Réunion"\
 		"gen_map 4" "DOM TOM: Guyane"\
 		"gen_map 5" "DOM TOM: Saint Martin - Saint Barthélémy"\
-		display_credits "CREDITS"\
-		"open https://github.com/jgigault/42MapGenerator/issues/new" "REPORT A BUG"\
-		exit_generator "EXIT"
+		main "BACK TO MAIN MENU"
 }
 
 if [ "$OPT_NO_UPDATE" == "0" ]

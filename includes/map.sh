@@ -41,6 +41,7 @@ then
 		if [ ! -d "$MYPATH" -o "$MYPATH" == "" ]
 		then
 			config_path
+			MYPATH=$(get_config "export_path")
 		else
 			display_header
 			gen_header

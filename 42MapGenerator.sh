@@ -42,6 +42,7 @@ function main
 		""\
 		main_france "France.."\
 		main_europe "Europe.."\
+		main_africa "Africa.."\
 		main_america "America.."\
 		main_asia "Asia.."\
 		main_australia "Australia.."\
@@ -57,6 +58,15 @@ function main_australia
 		""\
 		"gen_map 14" "Australia"\
 		"gen_map 10" "New Zealand"\
+		main "BACK TO MAIN MENU"
+}
+
+function main_africa
+{
+	display_header
+	display_menu\
+		""\
+		"gen_map 16" "Ethiopia"\
 		main "BACK TO MAIN MENU"
 }
 

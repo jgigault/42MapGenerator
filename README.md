@@ -4,7 +4,7 @@
 
 Choose a region and an export directory and let the script generate 5 maps of different accuracies (XXL is original data, XL, L, M and S).
 
-Accuracy of the maps according to the data source:
+Horizontal accuracy of the maps according to the data source:
 * IGN's data: up to 250 meters
 * NOAA's data: up to 1852 meters (1 arc-minute)
 

@@ -14,7 +14,7 @@ then
 
 	function gen_map
 	{
-		local MYCONF index MAPNAME MAPURL LHOME LPATH MAPTYPE
+		local MYCONF index MAPNAME MAPURL LHOME LPATH MAPTYPE WIDTH0
 		local ERASE=0
 		local ERASE_ALL=0
 		LHOME=`echo "$HOME" | sed 's/\//\\\\\\//g'`
@@ -42,9 +42,11 @@ then
 		fi
 		display_header
 		gen_header
-		printf $C_BLUE"  Initialization...\n\n"$C_CLEAR
+		printf $C_BLUE"  Initialization...\n"$C_CLEAR
 
-		local WIDTH0=`cat "$RETURNPATH/tmp/$MAPFILENAME.txt" | awk '{if(NR==7) {print NF}}'`
+		(cat "$RETURNPATH/tmp/$MAPFILENAME.txt" | awk '{if(NR==7) {print NF}}' > .myret) &
+		display_spinner $!
+		WIDTH0=`cat .myret`
 		MYPATH=$(get_config "export_path")
 		if [ ! -d "$MYPATH" -o "$MYPATH" == "" ]
 		then

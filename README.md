@@ -1,6 +1,6 @@
 # 42MapGenerator
 
-<img src="http://i.imgur.com/RLfUrZc.png" align="right" width="30%" />42 Map Generator is a tiny bash script developed at 42 school for generating maps for FdF project whose data are extracted from IGN's and NOAA's servers.
+<img src="http://i.imgur.com/RLfUrZc.png" align="right" width="50%" />42 Map Generator is a tiny bash script developed at 42 school for generating maps for FdF project whose data are extracted from IGN's and NOAA's servers.
 
 Choose a region and an export directory and let the script generate 5 maps of different accuracies (XXL is original data, XL, L, M ans S).
 

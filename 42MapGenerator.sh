@@ -57,6 +57,7 @@ function main_europe
 	display_menu\
 		""\
 		"gen_map 6" "Map of Europe"\
+		"gen_map 12" "Great Britain & Ireland"\
 		"gen_map 11" "Italy"\
 		main "BACK TO MAIN MENU"
 }

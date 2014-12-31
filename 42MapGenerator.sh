@@ -75,6 +75,7 @@ function main_america
 	display_menu\
 		""\
 		"gen_map 7" "West Coast (North America)"\
+		"gen_map 15" "Great Lakes (North America)"\
 		"gen_map 8" "Amazonia"\
 		"gen_map 13" "Cordillera de los Andes"\
 		main "BACK TO MAIN MENU"

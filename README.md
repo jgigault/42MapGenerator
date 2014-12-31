@@ -1,18 +1,25 @@
 # 42MapGenerator
 
-42 Map Generator is a tiny bash script developed at 42 school for generating maps for FdF project whose data are extracted from IGN's and NOAA's servers.
+<img src="http://i.imgur.com/RLfUrZc.png" align="right" width="30%" />42 Map Generator is a tiny bash script developed at 42 school for generating maps for FdF project whose data are extracted from IGN's and NOAA's servers.
+
+Choose a region and an export directory and let the script generate 5 maps of different accuracies (XXL is original data, XL, L, M ans S).
+
+Accuracy of the maps according to the data source:
+* IGN's data: up to 250 meters
+* NOAA's data: up to 1852 meters (1 arc-minute)
 
 ## install & launch
 	git clone https://github.com/jgigault/42MapGenerator ~/42MapGenerator
 	cd ~/42MapGenerator && sh ./42MapGenerator.sh
 
 ## supported regions
-* France (and Overseas)
-* Europe
-* West Coast (North America)
-* Amazonia (South America)
-* Himalaya (Asia)
-* New Zealand
+* France and Overseas
+* Europe, Italy, Great Britain & Ireland
+* Great Lakes, West Coast (North America)
+* Amazonia, Cordillera de los Andes
+* Himalaya & India
+* Ethiopia
+* Australia, New Zealand
 
 ## options
 	--no-update   // Do not check for updates at launch
@@ -24,4 +31,4 @@
 
 ## credits
 * BD ALTI® - IGN (http://professionnels.ign.fr/bdalti)
-* NGDC Grid Extraction Tool - NOAA (http://maps.ngdc.noaa.gov/viewers/wcs-client/)
+* ETOPO1 - NGDC Grid Extraction Tool - NOAA (http://maps.ngdc.noaa.gov/viewers/wcs-client/)

@@ -1,6 +1,6 @@
 # 42MapGenerator
 
-42MapGenerator is a tiny bash script developped at 42 school for generating map of France for FdF project.
+42 Map Generator is a tiny bash script developed at 42 school for generating maps for FdF project whose data are extracted from IGN's and NOAA's servers.
 
 ## install & launch
 	git clone https://github.com/jgigault/42MapGenerator ~/42MapGenerator

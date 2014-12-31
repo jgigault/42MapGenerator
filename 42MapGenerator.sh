@@ -55,6 +55,7 @@ function main_australia
 	display_header
 	display_menu\
 		""\
+		"gen_map 14" "Australia"\
 		"gen_map 10" "New Zealand"\
 		main "BACK TO MAIN MENU"
 }

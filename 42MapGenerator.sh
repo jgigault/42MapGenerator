@@ -42,13 +42,41 @@ function main
 		""\
 		main_france "France.."\
 		main_europe "Europe.."\
-		"gen_map 7" "West Coast (North America)"\
-		"gen_map 8" "Amazonia (South America)"\
-		"gen_map 9" "Himalaya (Asia)"\
-		"gen_map 10" "New Zealand"\
+		main_america "America.."\
+		main_asia "Asia.."\
+		main_australia "Australia.."\
 		display_credits "CREDITS"\
 		"open https://github.com/jgigault/42MapGenerator/issues/new" "REPORT A BUG"\
 		exit_generator "EXIT"
+}
+
+function main_australia
+{
+	display_header
+	display_menu\
+		""\
+		"gen_map 10" "New Zealand"\
+		main "BACK TO MAIN MENU"
+}
+
+function main_asia
+{
+	display_header
+	display_menu\
+		""\
+		"gen_map 9" "India & Himalaya"\
+		main "BACK TO MAIN MENU"
+}
+
+function main_america
+{
+	display_header
+	display_menu\
+		""\
+		"gen_map 7" "West Coast (North America)"\
+		"gen_map 8" "Amazonia"\
+		"gen_map 13" "Cordillera de los Andes"\
+		main "BACK TO MAIN MENU"
 }
 
 function main_europe

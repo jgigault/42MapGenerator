@@ -2,7 +2,7 @@
 
 <img src="http://i.imgur.com/RLfUrZc.png" align="right" width="50%" />42 Map Generator is a tiny bash script developed at 42 school for generating maps for FdF project whose data are extracted from IGN's and NOAA's servers.
 
-Choose a region and an export directory and let the script generate 5 maps of different accuracies (XXL is original data, XL, L, M ans S).
+Choose a region and an export directory and let the script generate 5 maps of different accuracies (XXL is original data, XL, L, M and S).
 
 Accuracy of the maps according to the data source:
 * IGN's data: up to 250 meters

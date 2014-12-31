@@ -40,8 +40,8 @@ function main
 	display_header
 	display_menu\
 		""\
-		main_france "France"\
-		"gen_map 6" "Europe"\
+		main_france "France.."\
+		main_europe "Europe.."\
 		"gen_map 7" "West Coast (North America)"\
 		"gen_map 8" "Amazonia (South America)"\
 		"gen_map 9" "Himalaya (Asia)"\
@@ -49,6 +49,16 @@ function main
 		display_credits "CREDITS"\
 		"open https://github.com/jgigault/42MapGenerator/issues/new" "REPORT A BUG"\
 		exit_generator "EXIT"
+}
+
+function main_europe
+{
+	display_header
+	display_menu\
+		""\
+		"gen_map 6" "Map of Europe"\
+		"gen_map 11" "Italy"\
+		main "BACK TO MAIN MENU"
 }
 
 function main_france

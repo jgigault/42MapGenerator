@@ -1,9 +1,94 @@
 #!/bin/bash
-
 if [ "$MAPGENERATOR_SH" == "1" ]
 then
 
-	declare -a MAPS='("http://professionnels.ign.fr/sites/default/files/" "France_250_ASC_L93" "ign" "France Métropolitaine" "http://professionnels.ign.fr/sites/default/files/" "Guadeloupe_MNT250_ASC" "ign" "Guadeloupe" "http://professionnels.ign.fr/sites/default/files/" "Martinique_MNT250_ASC" "ign" "Martinique" "http://professionnels.ign.fr/sites/default/files/" "Reunion_MNT250_ASC" "ign" "Réunion" "http://professionnels.ign.fr/sites/default/files/" "Guyane_MNT250_ASC" "ign" "Guyane" "http://professionnels.ign.fr/sites/default/files/" "ST_MART_ST_BART_MNT250_ASC" "ign" "Saint Martin - Saint Barthélémy" "http://mapserver.ngdc.noaa.gov/cgi-bin/public/wcs/etopo1.asc?filename=NOAA_ETOPO_EUROPE.asc&request=getcoverage&version=1.0.0&service=wcs&coverage=etopo1&CRS=EPSG:4326&format=aaigrid&resx=0.016666666666666667&resy=0.016666666666666667&bbox=-13.0916666666666669285,35.5916666666666673785,31.6583333333333339665,59.0250000000000011805" "NOAA_ETOPO_EUROPE" "noaa" "Europe" "http://mapserver.ngdc.noaa.gov/cgi-bin/public/wcs/etopo1.asc?filename=NOAA_ETOPO_WEST_COAST.asc&request=getcoverage&version=1.0.0&service=wcs&coverage=etopo1&CRS=EPSG:4326&format=aaigrid&resx=0.016666666666666667&resy=0.016666666666666667&bbox=-127.3250000000000025465,14.0083333333333336135,-94.4416666666666685555,46.3250000000000009265" "NOAA_ETOPO_WEST_COAST" "noaa" "West Coast (North America)" "http://mapserver.ngdc.noaa.gov/cgi-bin/public/wcs/etopo1.asc?filename=NOAA_ETOPO_AMAZONIA.asc&request=getcoverage&version=1.0.0&service=wcs&coverage=etopo1&CRS=EPSG:4326&format=aaigrid&resx=0.016666666666666667&resy=0.016666666666666667&bbox=-82.8583333333333349905,-17.9916666666666670265,-33.3583333333333340005,13.2416666666666669315" "NOAA_ETOPO_AMAZONIA" "noaa" "Amazonia (South America)" "http://mapserver.ngdc.noaa.gov/cgi-bin/public/wcs/etopo1.asc?filename=NOAA_ETOPO_HIMALAYA.asc&request=getcoverage&version=1.0.0&service=wcs&coverage=etopo1&CRS=EPSG:4326&format=aaigrid&resx=0.016666666666666667&resy=0.016666666666666667&bbox=62.2583333333333345785,4.4750000000000000895,107.0916666666666688085,40.9250000000000008185" "NOAA_ETOPO_HIMALAYA" "noaa" "India & Himalaya" "http://mapserver.ngdc.noaa.gov/cgi-bin/public/wcs/etopo1.asc?filename=NOAA_ETOPO_NEWZEALAND.asc&request=getcoverage&version=1.0.0&service=wcs&coverage=etopo1&CRS=EPSG:4326&format=aaigrid&resx=0.016666666666666667&resy=0.016666666666666667&bbox=165.4083333333333366415,-47.8250000000000009565,179.6083333333333369255,-33.8916666666666673445" "NOAA_ETOPO_NEWZEALAND" "noaa" "New Zealand" "http://mapserver.ngdc.noaa.gov/cgi-bin/public/wcs/etopo1.asc?filename=NOAA_ETOPO_ITALY.asc&request=getcoverage&version=1.0.0&service=wcs&coverage=etopo1&CRS=EPSG:4326&format=aaigrid&resx=0.016666666666666667&resy=0.016666666666666667&bbox=6.6750000000000001335,36.4916666666666673965,18.7916666666666670425,46.0083333333333342535" "NOAA_ETOPO_ITALY" "noaa" "Italy" "http://mapserver.ngdc.noaa.gov/cgi-bin/public/wcs/etopo1.asc?filename=NOAA_ETOPO_GB.asc&request=getcoverage&version=1.0.0&service=wcs&coverage=etopo1&CRS=EPSG:4326&format=aaigrid&resx=0.016666666666666667&resy=0.016666666666666667&bbox=-11.3083333333333335595,49.7250000000000009945,2.4916666666666667165,59.5916666666666678585" "NOAA_ETOPO_GB" "noaa" "Great Britain & Ireland" "http://mapserver.ngdc.noaa.gov/cgi-bin/public/wcs/etopo1.asc?filename=NOAA_ETOPO_ANDES.asc&request=getcoverage&version=1.0.0&service=wcs&coverage=etopo1&CRS=EPSG:4326&format=aaigrid&resx=0.016666666666666667&resy=0.016666666666666667&bbox=-82.4416666666666683155,-57.1750000000000011435,-61.8583333333333345705,13.0416666666666669275" "NOAA_ETOPO_ANDES" "noaa" "Cordillera de los Andes" "http://mapserver.ngdc.noaa.gov/cgi-bin/public/wcs/etopo1.asc?filename=NOAA_ETOPO_AUSTRALIA.asc&request=getcoverage&version=1.0.0&service=wcs&coverage=etopo1&CRS=EPSG:4326&format=aaigrid&resx=0.016666666666666667&resy=0.016666666666666667&bbox=111.3583333333333355605,-45.0083333333333342335,155.0583333333333364345,-9.7416666666666668615" "NOAA_ETOPO_AUSTRALIA" "noaa" "Australia" "http://mapserver.ngdc.noaa.gov/cgi-bin/public/wcs/etopo1.asc?filename=NOAA_ETOPO_GREAT_LAKES.asc&request=getcoverage&version=1.0.0&service=wcs&coverage=etopo1&CRS=EPSG:4326&format=aaigrid&resx=0.016666666666666667&resy=0.016666666666666667&bbox=-93.7750000000000018755,40.7750000000000008155,-59.4750000000000011895,50.3583333333333343405" "NOAA_ETOPO_GREAT_LAKES" "noaa" "Great Lakes (North America)" "http://mapserver.ngdc.noaa.gov/cgi-bin/public/wcs/etopo1.asc?filename=NOAA_ETOPO_ETHIOPIA.asc&request=getcoverage&version=1.0.0&service=wcs&coverage=etopo1&CRS=EPSG:4326&format=aaigrid&resx=0.016666666666666667&resy=0.016666666666666667&bbox=24.4416666666666671555,-4.6250000000000000925,52.5416666666666677175,18.1916666666666670305" "NOAA_ETOPO_ETHIOPIA" "noaa" "Ethiopia")'
+	declare -a MAPS
+
+	MAPS[${#MAPS[*]}]=""
+	MAPS[${#MAPS[*]}]="France_250_ASC_L93"
+	MAPS[${#MAPS[*]}]="ign"
+	MAPS[${#MAPS[*]}]="France Métropolitaine"
+
+	MAPS[${#MAPS[*]}]=""
+	MAPS[${#MAPS[*]}]="Guadeloupe_MNT250_ASC"
+	MAPS[${#MAPS[*]}]="ign"
+	MAPS[${#MAPS[*]}]="Guadeloupe"
+
+	MAPS[${#MAPS[*]}]=""
+	MAPS[${#MAPS[*]}]="Martinique_MNT250_ASC"
+	MAPS[${#MAPS[*]}]="ign"
+	MAPS[${#MAPS[*]}]="Martinique"
+
+	MAPS[${#MAPS[*]}]=""
+	MAPS[${#MAPS[*]}]="Reunion_MNT250_ASC"
+	MAPS[${#MAPS[*]}]="ign"
+	MAPS[${#MAPS[*]}]="Réunion"
+
+	MAPS[${#MAPS[*]}]=""
+	MAPS[${#MAPS[*]}]="Guyane_MNT250_ASC"
+	MAPS[${#MAPS[*]}]="ign"
+	MAPS[${#MAPS[*]}]="Guyane"
+
+	MAPS[${#MAPS[*]}]=""
+	MAPS[${#MAPS[*]}]="ST_MART_ST_BART_MNT250_ASC"
+	MAPS[${#MAPS[*]}]="ign"
+	MAPS[${#MAPS[*]}]="Saint Martin - Saint Barthélémy"
+
+	MAPS[${#MAPS[*]}]="-13.0916666666666669285,35.5916666666666673785,31.6583333333333339665,59.0250000000000011805"
+	MAPS[${#MAPS[*]}]="NOAA_ETOPO_EUROPE"
+	MAPS[${#MAPS[*]}]="noaa"
+	MAPS[${#MAPS[*]}]="Europe"
+
+	MAPS[${#MAPS[*]}]="-127.3250000000000025465,14.0083333333333336135,-94.4416666666666685555,46.3250000000000009265"
+	MAPS[${#MAPS[*]}]="NOAA_ETOPO_WEST_COAST"
+	MAPS[${#MAPS[*]}]="noaa"
+	MAPS[${#MAPS[*]}]="West Coast (North America)"
+
+	MAPS[${#MAPS[*]}]="-82.8583333333333349905,-17.9916666666666670265,-33.3583333333333340005,13.2416666666666669315"
+	MAPS[${#MAPS[*]}]="NOAA_ETOPO_AMAZONIA"
+	MAPS[${#MAPS[*]}]="noaa"
+	MAPS[${#MAPS[*]}]="Amazonia (South America)"
+
+	MAPS[${#MAPS[*]}]="62.2583333333333345785,4.4750000000000000895,107.0916666666666688085,40.9250000000000008185"
+	MAPS[${#MAPS[*]}]="NOAA_ETOPO_HIMALAYA"
+	MAPS[${#MAPS[*]}]="noaa"
+	MAPS[${#MAPS[*]}]="India & Himalaya"
+
+	MAPS[${#MAPS[*]}]="165.4083333333333366415,-47.8250000000000009565,179.6083333333333369255,-33.8916666666666673445"
+	MAPS[${#MAPS[*]}]="NOAA_ETOPO_NEWZEALAND"
+	MAPS[${#MAPS[*]}]="noaa"
+	MAPS[${#MAPS[*]}]="New Zealand"
+
+	MAPS[${#MAPS[*]}]="6.6750000000000001335,36.4916666666666673965,18.7916666666666670425,46.0083333333333342535"
+	MAPS[${#MAPS[*]}]="NOAA_ETOPO_ITALY"
+	MAPS[${#MAPS[*]}]="noaa"
+	MAPS[${#MAPS[*]}]="Italy"
+
+	MAPS[${#MAPS[*]}]="-11.3083333333333335595,49.7250000000000009945,2.4916666666666667165,59.5916666666666678585"
+	MAPS[${#MAPS[*]}]="NOAA_ETOPO_GB"
+	MAPS[${#MAPS[*]}]="noaa"
+	MAPS[${#MAPS[*]}]="Great Britain & Ireland"
+
+	MAPS[${#MAPS[*]}]="-82.4416666666666683155,-57.1750000000000011435,-61.8583333333333345705,13.0416666666666669275"
+	MAPS[${#MAPS[*]}]="NOAA_ETOPO_ANDES"
+	MAPS[${#MAPS[*]}]="noaa"
+	MAPS[${#MAPS[*]}]="Cordillera de los Andes"
+
+	MAPS[${#MAPS[*]}]="111.3583333333333355605,-45.0083333333333342335,155.0583333333333364345,-9.7416666666666668615"
+	MAPS[${#MAPS[*]}]="NOAA_ETOPO_AUSTRALIA"
+	MAPS[${#MAPS[*]}]="noaa"
+	MAPS[${#MAPS[*]}]="Australia"
+
+	MAPS[${#MAPS[*]}]="-93.7750000000000018755,40.7750000000000008155,-59.4750000000000011895,50.3583333333333343405"
+	MAPS[${#MAPS[*]}]="NOAA_ETOPO_GREAT_LAKES"
+	MAPS[${#MAPS[*]}]="noaa"
+	MAPS[${#MAPS[*]}]="Great Lakes (North America)"
+
+
+	MAPS[${#MAPS[*]}]="24.4416666666666671555,-4.6250000000000000925,52.5416666666666677175,18.1916666666666670305"
+	MAPS[${#MAPS[*]}]="NOAA_ETOPO_ETHIOPIA"
+	MAPS[${#MAPS[*]}]="noaa"
+	MAPS[${#MAPS[*]}]="Ethiopia"
 
 	function gen_header
 	{
@@ -14,19 +99,37 @@ then
 
 	function gen_map
 	{
-		local MYCONF index MAPNAME MAPURL LHOME LPATH MAPTYPE WIDTH0
-		local ERASE=0
-		local ERASE_ALL=0
-		LHOME=`echo "$HOME" | sed 's/\//\\\\\\//g'`
-		MYCONF=$(get_config "$1")
+		local index MAPURL MAPBOX MAPFILENAME MAPTYPE MAPNAME
 		(( index=$1 * 4 ))
-		MAPURL=${MAPS[index]}
+		MAPBOX=${MAPS[index]}
 		(( index=$index + 1 ))
 		MAPFILENAME=${MAPS[index]}
 		(( index=$index + 1 ))
 		MAPTYPE=${MAPS[index]}
 		(( index=$index + 1 ))
 		MAPNAME=${MAPS[index]}
+		case "$MAPTYPE" in
+			"noaa")
+				MAPURL="http://mapserver.ngdc.noaa.gov/cgi-bin/public/wcs/etopo1.asc?filename="$MAPFILENAME".asc&request=getcoverage&version=1.0.0&service=wcs&coverage=etopo1&CRS=EPSG:4326&format=aaigrid&resx=0.016666666666666667&resy=0.016666666666666667&bbox="$MAPBOX
+				;;
+			"ign")
+				MAPURL="http://professionnels.ign.fr/sites/default/files/"
+				;;
+		esac
+		gen_map_cp "$1" "$MAPURL" "$MAPFILENAME" "$MAPTYPE" "$MAPNAME"
+	}
+
+	function gen_map_cp
+	{
+		local MYCONF index MAPNAME MAPURL LHOME LPATH MAPTYPE WIDTH0
+		local ERASE=0
+		local ERASE_ALL=0
+		MAPURL=$2
+		MAPFILENAME=$3
+		MAPTYPE=$4
+		MAPNAME=$5
+		LHOME=`echo "$HOME" | sed 's/\//\\\\\\//g'`
+		MYCONF=$(get_config "$1")
 		local LIST=""
 
 		if [ ! -f "$RETURNPATH/tmp/$MAPFILENAME.txt" ]

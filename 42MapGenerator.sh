@@ -40,69 +40,14 @@ function main
 	display_header
 	display_menu\
 		""\
-		main_france "France.."\
-		main_europe "Europe.."\
-		main_africa "Africa.."\
-		main_america "America.."\
-		main_asia "Asia.."\
-		main_australia "Australia.."\
+		main_ign "IGN's data (France and Overseas)"\
+		main_noaa "NOAA's data (World)"\
 		display_credits "CREDITS"\
 		"open https://github.com/jgigault/42MapGenerator/issues/new" "REPORT A BUG"\
 		exit_generator "EXIT"
 }
 
-function main_australia
-{
-	display_header
-	display_menu\
-		""\
-		"gen_map 14" "Australia"\
-		"gen_map 10" "New Zealand"\
-		main "BACK TO MAIN MENU"
-}
-
-function main_africa
-{
-	display_header
-	display_menu\
-		""\
-		"gen_map 16" "Ethiopia"\
-		main "BACK TO MAIN MENU"
-}
-
-function main_asia
-{
-	display_header
-	display_menu\
-		""\
-		"gen_map 9" "India & Himalaya"\
-		main "BACK TO MAIN MENU"
-}
-
-function main_america
-{
-	display_header
-	display_menu\
-		""\
-		"gen_map 7" "West Coast (North America)"\
-		"gen_map 15" "Great Lakes (North America)"\
-		"gen_map 8" "Amazonia"\
-		"gen_map 13" "Cordillera de los Andes"\
-		main "BACK TO MAIN MENU"
-}
-
-function main_europe
-{
-	display_header
-	display_menu\
-		""\
-		"gen_map 6" "Map of Europe"\
-		"gen_map 12" "Great Britain & Ireland"\
-		"gen_map 11" "Italy"\
-		main "BACK TO MAIN MENU"
-}
-
-function main_france
+function main_ign
 {
 	display_header
 	display_menu\
@@ -113,6 +58,25 @@ function main_france
 		"gen_map 3" "DOM TOM: Réunion"\
 		"gen_map 4" "DOM TOM: Guyane"\
 		"gen_map 5" "DOM TOM: Saint Martin - Saint Barthélémy"\
+		main "BACK TO MAIN MENU"
+}
+
+function main_noaa
+{
+	display_header
+	display_menu\
+		""\
+		"gen_map 8" "Amazonia"\
+		"gen_map 14" "Australia"\
+		"gen_map 13" "Cordillera de los Andes"\
+		"gen_map 16" "Ethiopia"\
+		"gen_map 6" "Europe"\
+		"gen_map 12" "Great Britain & Ireland"\
+		"gen_map 15" "Great Lakes (North America)"\
+		"gen_map 9" "India & Himalaya"\
+		"gen_map 11" "Italy"\
+		"gen_map 10" "New Zealand"\
+		"gen_map 7" "West Coast (North America)"\
 		main "BACK TO MAIN MENU"
 }
 

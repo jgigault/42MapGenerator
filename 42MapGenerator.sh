@@ -33,6 +33,7 @@ source includes/map.sh
 source includes/update.sh
 source includes/credits.sh
 source includes/config.sh
+source includes/custom.sh
 
 function main
 {
@@ -40,8 +41,9 @@ function main
 	display_header
 	display_menu\
 		""\
-		main_ign "IGN's data (France and Overseas)"\
-		main_noaa "NOAA's data (World)"\
+		gen_custom "Find your own country with the Google Geocoding API"\
+		main_ign "preset regions: IGN's data (France and Overseas)"\
+		main_noaa "preset regions: NOAA's data (World)"\
 		display_credits "CREDITS"\
 		"open https://github.com/jgigault/42MapGenerator/issues/new" "REPORT A BUG"\
 		exit_generator "EXIT"

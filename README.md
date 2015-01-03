@@ -12,7 +12,12 @@ Horizontal accuracy of the maps according to the data source:
 	git clone https://github.com/jgigault/42MapGenerator ~/42MapGenerator
 	cd ~/42MapGenerator && sh ./42MapGenerator.sh
 
-## supported regions
+## features
+* Choose a preset region
+* Find your own country with the Google Geocoding API
+* Generate random maps (in progress)
+
+## preset regions
 * France and Overseas
 * Europe, Italy, Great Britain & Ireland
 * Great Lakes, West Coast (North America)
@@ -32,3 +37,4 @@ Horizontal accuracy of the maps according to the data source:
 ## credits
 * BD ALTI® - IGN (http://professionnels.ign.fr/bdalti)
 * ETOPO1 - NGDC Grid Extraction Tool - NOAA (http://maps.ngdc.noaa.gov/viewers/wcs-client/)
+* Google Geocoding API (https://developers.google.com/maps/documentation/geocoding/)

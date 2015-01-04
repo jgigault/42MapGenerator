@@ -100,7 +100,7 @@ then
 	{
 		local FNAME
 		FNAME=`echo "$TITLE" | sed 's/[^0-9a-zA-Z]/_/g'`
-		gen_map_cp "CUSTOM_$FNAME" "http://mapserver.ngdc.noaa.gov/cgi-bin/public/wcs/etopo1.asc?filename=CUSTOM_$FNAME.asc&request=getcoverage&version=1.0.0&service=wcs&coverage=etopo1&CRS=EPSG:4326&format=aaigrid&resx=0.016666666666666667&resy=0.016666666666666667&bbox=$LNG0,$LAT0,$LNG1,$LAT1" "CUSTOM_$FNAME" "noaa" "Spain"
+		gen_map_cp "CUSTOM_$FNAME" "http://mapserver.ngdc.noaa.gov/cgi-bin/public/wcs/etopo1.asc?filename=CUSTOM_$FNAME.asc&request=getcoverage&version=1.0.0&service=wcs&coverage=etopo1&CRS=EPSG:4326&format=aaigrid&resx=0.016666666666666667&resy=0.016666666666666667&bbox=$LNG0,$LAT0,$LNG1,$LAT1" "CUSTOM_$FNAME" "noaa" "$TITLE"
 
 	}
 

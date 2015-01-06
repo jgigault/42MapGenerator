@@ -41,7 +41,7 @@ function main
 	display_header
 	display_menu\
 		""\
-		gen_custom "Find your own country with the Google Geocoding API"\
+		gen_custom "find your own country with the Google Geocoding API"\
 		main_ign "preset regions: IGN's data (France and Overseas)"\
 		main_noaa "preset regions: NOAA's data (World)"\
 		display_credits "CREDITS"\

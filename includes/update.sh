@@ -26,7 +26,7 @@ then
 				display_menu\
               	""\
                 	install_update "UPDATE 42MAPGENERATOR"\
-					main "SKIP UPDATE"\
+					"" "SKIP UPDATE"\
                 	exit_generator "EXIT"
 			fi
 		fi

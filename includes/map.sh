@@ -121,7 +121,7 @@ then
 
 	function gen_map_cp
 	{
-		local MYCONF index MAPNAME MAPURL LHOME LPATH MAPTYPE WIDTH0
+		local MYCONF index MAPNAME MAPURL LHOME LPATH MAPTYPE WIDTH0 MYWATER
 		local ERASE=0
 		local ERASE_ALL=0
 		MAPURL=$2
@@ -169,11 +169,31 @@ then
 				config_path "change directory"
 			MYPATH=$(get_config "export_path")
 		fi
-		parse_map XXL "$MYPATH/$MAPFILENAME.XXL.fdf"
-		parse_map XL "$MYPATH/$MAPFILENAME.XL.fdf"
-		parse_map L "$MYPATH/$MAPFILENAME.L.fdf"
-		parse_map M "$MYPATH/$MAPFILENAME.M.fdf"
-		parse_map S "$MYPATH/$MAPFILENAME.S.fdf"
+		MYWATER=`cat .mywater`
+		if [ "$MYWATER" == "" ]
+		then
+			MYWATER=1
+		fi
+		if [ "$MAPTYPE" == "noaa" ]
+		then
+			display_header
+			gen_header
+			printf $C_WHITE"  Configure the ocean topography:\n"$C_CLEAR
+			printf "  Select option (2) if you want the script to create a virtual ocean level (around -20).\n\n"
+			display_menu\
+				""\
+				"echo 1 > .mywater" "keep the original topography of the ocean"\
+				"echo 0 > .mywater" "set up the oceans as flat"
+			MYWATER=`cat .mywater`
+		else
+			MYWATER=0
+		fi
+
+		parse_map XXL "$MYPATH/$MAPFILENAME.OCEAN$MYWATER.XXL.fdf"
+		parse_map XL "$MYPATH/$MAPFILENAME.OCEAN$MYWATER.XL.fdf"
+		parse_map L "$MYPATH/$MAPFILENAME.OCEAN$MYWATER.L.fdf"
+		parse_map M "$MYPATH/$MAPFILENAME.OCEAN$MYWATER.M.fdf"
+		parse_map S "$MYPATH/$MAPFILENAME.OCEAN$MYWATER.S.fdf"
 
 		display_header
 		gen_header
@@ -247,14 +267,21 @@ then
 		(( zfactor=$zfactor / 100  + 1))
 
 		zfactor=16
-		(( water=10 - 10 * 100 / $WIDTH0 ))
-		(( water=$water * 2 ))
-		if (( $water <= 5 ))
+
+		if [ "$MYWATER" == "0" ]
 		then
-			water=5
+			(( water=10 - 10 * 100 / $WIDTH0 ))
+			(( water=$water * 2 ))
+			if (( $water <= 5 ))
+			then
+				water=5
+			fi
+			(( water= $water * -1 ))
+			unknown=$water
+		else
+			unknown=-9999999
+			water=-9999999
 		fi
-		(( water= $water * -1 ))
-		unknown=$water
 
 		if [ -f "$2" -a "$ERASE_ALL" == "0" ]
 		then
@@ -266,9 +293,9 @@ then
 				"" "skip warning"
 		else
 
-			(cat "$RETURNPATH/tmp/$MAPFILENAME.txt" | awk -v step=$step -v zfactor=$zfactor -v unknown=$unknown -v water=$water 'BEGIN {odd=-1} {if(NR > 6) {odd+=1; if(odd==0) {for(i=1;i<=NF;i++) {if($i==-9999) {printf unknown} else {if($i<=0) {printf water} else {printf("%d", $i/zfactor+1)}} i+=step; if(i>=NF) {printf "\n"} else {printf " "}}} else {if (odd>=step) {odd=-1}}}}' > "$2") &
+			(cat "$RETURNPATH/tmp/$MAPFILENAME.txt" | awk -v step=$step -v zfactor=$zfactor -v unknown=$unknown -v water=$water 'BEGIN {odd=-1} {if(NR > 6) {odd+=1; if(odd==0) {for(i=1;i<=NF;i++) {if(unknown!=-9999999 && $i==-9999) {printf unknown} else {if(water!=-9999999 && $i<=0) {printf water} else {printf("%d", $i/zfactor+1)}} i+=step; if(i>=NF) {printf "\n"} else {printf " "}}} else {if (odd>=step) {odd=-1}}}}' > "$2") &
 			display_spinner $!
-			LIST=$LIST"  -> $MAPFILENAME.$1.fdf\n"
+			LIST=$LIST"  -> $MAPFILENAME.OCEAN$MYWATER.$1.fdf\n"
 		fi
 	}
 
@@ -290,7 +317,7 @@ then
 		create_tmp_dir
 		display_header
 		gen_header
-		printf $C_BLUE"  Downloading map from remote server...\n  "
+		printf $C_BLUE"  Downloading map from remote server...\n"
 		sleep 0.5
 		rm -f "$2"
 		curl --output "$2" "$1"

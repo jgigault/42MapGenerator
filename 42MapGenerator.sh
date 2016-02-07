@@ -1,11 +1,37 @@
 #!/bin/bash
 
-####################################################################
-#    jgigault @ student.42.fr                    06 51 15 98 82    #
-####################################################################
+#####################################################
+#  _  _  ____  __  __              ____             #
+# | || ||___ \|  \/  | __ _ _ __  / ___| ___ _ __   #
+# | || |_ __) | |\/| |/ _` | '_ \| |  _ / _ \ '_ \  #
+# |__   _/ __/| |  | | (_| | |_) | |_| |  __/ | | | #
+#    |_||_____|_|  |_|\__,_| .__/ \____|\___|_| |_| #
+# jgigault @ student.42.fr |_|       06 51 15 98 82 #
+#####################################################
+
+
+function mapgen_install_dir
+{
+  local SOURCE="${BASH_SOURCE[0]}"
+  local DIR
+  while [ -h "${SOURCE}" ]
+  do
+    DIR="$(cd -P "$(dirname "${SOURCE}")" && pwd)"
+    SOURCE="$(readlink "${SOURCE}")"
+    [[ "${SOURCE}" != /* ]] && SOURCE="${DIR}/${SOURCE}"
+  done
+  printf "%s" "$(cd -P "$(dirname "${SOURCE}")" && pwd)"
+}
+
+GLOBAL_ENTRYPATH=$(pwd)
+GLOBAL_INSTALLDIR=$(mapgen_install_dir)
+cd "${GLOBAL_INSTALLDIR}"
 
 MAPGENERATOR_SH=1
 RETURNPATH=$(pwd | sed 's/ /\ /g')
+CVERSION=$(git log --oneline 2>/dev/null | wc -l | sed 's/ //g')
+if [ "$CVERSION" == "" ]; then CVERSION="???"; fi
+
 OPT_NO_UPDATE=0
 OPT_NO_COLOR=0
 OPT_NO_TIMEOUT=0
@@ -13,77 +39,73 @@ OPT_NO_TIMEOUT=0
 i=1
 while (( i <= $# ))
 do
-	if [ "${!i}" == "--no-update" ]
-	then
-		OPT_NO_UPDATE=1
-	fi
-	if [ "${!i}" == "--no-color" ]
-	then
-		OPT_NO_COLOR=1
-	fi
-	if [ "${!i}" == "--no-timeout" ]
-	then
-		OPT_NO_TIMEOUT=1
-	fi
-	(( i += 1 ))
+  case "${!i}" in
+    "--no-update") OPT_NO_UPDATE=1 ;;
+    "--no-color") OPT_NO_COLOR=1 ;;
+    "--no-timeout") OPT_NO_TIMEOUT=1 ;;
+  esac
+  (( i += 1 ))
 done
 
+source includes/maps.sh
+source includes/data_providers.sh
 source includes/utils.sh
-source includes/map.sh
-source includes/update.sh
-source includes/credits.sh
+source includes/display_menu.sh
+source includes/display_header.sh
+source includes/display_center.sh
+source includes/display_section.sh
+source includes/display_error.sh
+source includes/display_success.sh
+source includes/display_right.sh
+source includes/display_spinner.sh
+source includes/generate_map.sh
+source includes/download_map.sh
+source includes/google_api.sh
+source includes/ign.sh
+source includes/noaa.sh
+source includes/mgds.sh
 source includes/config.sh
-source includes/custom.sh
+source includes/credits.sh
+source includes/update.sh
+
 
 function main
 {
-	tput civis
-	display_header
-	display_menu\
-		""\
-		gen_custom "find your own country with the Google Geocoding API"\
-		main_ign "preset regions: IGN's data (France and Overseas)"\
-		main_noaa "preset regions: NOAA's data (World)"\
-		display_credits "CREDITS"\
-		"open https://github.com/jgigault/42MapGenerator/issues/new" "REPORT A BUG"\
-		exit_generator "EXIT"
+  local RETURNFUNCTION="main" DATA_PROVIDER_ID="" MAPS_ID="" MAPS_FORMAT="" MY_EXPORT_PATH=$(utils_get_config "export_path")
+  if [ "${MY_EXPORT_PATH}" == "" ]
+  then
+    config_path
+  else
+    display_header
+    display_section
+    display_menu\
+      "" "Select a data provider:"\
+      main_ign "${DATA_PROVIDERS[$(utils_data_provider_id "IGN")]}"\
+      main_noaa "${DATA_PROVIDERS[$(utils_data_provider_id "NOAA")]}"\
+      main_mgds "${DATA_PROVIDERS[$(utils_data_provider_id "MGDS")]}"\
+      "_"\
+      "config_path" "Change export directory"\
+      "_"\
+      "utils_option_set OPT_NO_TIMEOUT" "$(if [ "$OPT_NO_TIMEOUT" == 0 ]; then echo "Disable timeout      (--no-timeout)"; else echo "Enable timeout"; fi)"\
+      "utils_option_set OPT_NO_COLOR" "$(if [ "$OPT_NO_COLOR" == 0 ]; then echo "Disable color        (--no-color)"; else echo "Enable color"; fi)"\
+      "_"\
+      display_credits "CREDITS"\
+      "open https://github.com/jgigault/42MapGenerator/issues/new" "REPORT A BUG"\
+      utils_exit "EXIT"
+  fi
 }
 
-function main_ign
-{
-	display_header
-	display_menu\
-		""\
-		"gen_map 0" "France Métropolitaine"\
-		"gen_map 1" "DOM TOM: Guadeloupe"\
-		"gen_map 2" "DOM TOM: Martinique"\
-		"gen_map 3" "DOM TOM: Réunion"\
-		"gen_map 4" "DOM TOM: Guyane"\
-		"gen_map 5" "DOM TOM: Saint Martin - Saint Barthélémy"\
-		main "BACK TO MAIN MENU"
-}
+utils_set_env
+utils_set_colors
 
-function main_noaa
-{
-	display_header
-	display_menu\
-		""\
-		"gen_map 8" "Amazonia"\
-		"gen_map 14" "Australia"\
-		"gen_map 13" "Cordillera de los Andes"\
-		"gen_map 16" "Ethiopia"\
-		"gen_map 6" "Europe"\
-		"gen_map 12" "Great Britain & Ireland"\
-		"gen_map 15" "Great Lakes (North America)"\
-		"gen_map 9" "India & Himalaya"\
-		"gen_map 11" "Italy"\
-		"gen_map 10" "New Zealand"\
-		"gen_map 7" "West Coast (North America)"\
-		main "BACK TO MAIN MENU"
-}
+#if [ "$OPT_NO_UPDATE" == "0" ]
+#then
+  #update
+#fi
 
-if [ "$OPT_NO_UPDATE" == "0" ]
-then
-	update
-fi
-main
+tput civis
+tput smcup
+utils_update
+tput rmcup
+tput cnorm
+cd "${GLOBAL_ENTRYPATH}"

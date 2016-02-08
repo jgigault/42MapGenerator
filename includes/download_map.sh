@@ -39,7 +39,8 @@ then
     display_section
     printf "${C_BLUE}  %s\n\n" "Downloading $1 from remote server..."
     sleep 0.5
-    curl --show-error --output "${MAPS_TMPDIR}$1" "$2"
+    (curl --show-error --output "${MAPS_TMPDIR}$1" "$2") &
+    display_spinner $!
     printf $C_CLEAR""
     if [ ! -f "${MAPS_TMPDIR}$1" -o "$?" != "0" ]
     then
@@ -71,7 +72,8 @@ then
     printf "${C_BLUE}  %s\n\n" "Extracting map from archive..."
     sleep 0.5
     rm -rf "${EXTRACT_DIRECTORY}"
-    unzip -o -j -d "${EXTRACT_DIRECTORY}" "${MAPS_TMPDIR}$1" \*.[Aa][Ss][Cc]
+    (unzip -o -j -d "${EXTRACT_DIRECTORY}" "${MAPS_TMPDIR}$1" \*.[Aa][Ss][Cc]) &
+    display_spinner $!
     if [ "$?" != "0" ]
     then
       display_header
@@ -115,16 +117,22 @@ then
 
   function check_headers
   {
-    local HEADER_NCOLS HEADER_NROWS
+    local HEADER_NCOLS HEADER_NROWS REAL_NCOLS REAL_NROWS DIFF_NCOLS DIFF_NROWS
     display_header
     display_section
     printf "${C_BLUE}  %s\n\n" "Checking headers..."
     sleep .3
     HEADER_NCOLS="$(awk 'BEGIN{OFS=""; ORS=""} $1 == "ncols" {print $2/1; exit}' "${MAPS_TMPDIR}$1")"
     HEADER_NROWS="$(awk 'BEGIN{OFS=""; ORS=""} $1 == "nrows" {print $2/1; exit}' "${MAPS_TMPDIR}$1")"
+    REAL_NCOLS="$(awk 'BEGIN{OFS=""; ORS=""} NF > 2 {print NF/1; exit}' "${MAPS_TMPDIR}$1")"
+    REAL_NROWS="$(awk 'BEGIN{OFS=""; ORS=""; TOTAL=0} NF > 2 {TOTAL+=1} END {print TOTAL/1}' "${MAPS_TMPDIR}$1")"
     if [ "${HEADER_NCOLS}" == "" ]; then HEADER_NCOLS=0; fi
     if [ "${HEADER_NROWS}" == "" ]; then HEADER_NROWS=0; fi
-    if [[ "${HEADER_NCOLS}" -le "0" || "${HEADER_NROWS}" -le "0" ]]
+    if [ "${REAL_NCOLS}" == "" ]; then REAL_NCOLS=0; fi
+    if [ "${REAL_NROWS}" == "" ]; then REAL_NROWS=0; fi
+    (( DIFF_NCOLS= "${HEADER_NCOLS}" - "${REAL_NCOLS}" ))
+    (( DIFF_NROWS= "${HEADER_NROWS}" - "${REAL_NROWS}" ))
+    if [[ "${HEADER_NCOLS}" -le "0" || "${HEADER_NROWS}" -le "0" || "${DIFF_NCOLS}" -lt -3 || "${DIFF_NCOLS}" -gt 3 || "${DIFF_NROWS}" -lt -3 || "${DIFF_NROWS}" -gt 3 ]]
     then
       rm -f "${MAPS_TMPDIR}$1"
       display_header

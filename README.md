@@ -2,16 +2,14 @@
 
 <img src="http://i.imgur.com/wnXCjUK.png" align="right" />42 Map Generator is a tiny bash script developed at 42 school for downloading and generating maps of the real world for the pedagogical project FdF.
 
-A map for the project FdF is a simple file based on the *ASCII Grid Format* whose headers were removed. The *ASCII Grid Format* is a good means of distributing raster image data files. It is widely supported and easy to import and export from most GIS softwares (Geographic Information System).
-
-The script 42 Map Generator allows you to find by name the coordinates of any country thanks to the *Google Geocoding API* and to reduce the exported file size by providing 5 different formats (XXL, XL, L, M, S).
-
-It extracts data from 3 different providers:
-* **IGN** (National Institute of Geographic and Forest Information / France), providing horizontal accuracy up to 250 meters of France and Overseas but excluding marine topography 
-* **NOAA** (National Oceanic and Atmospheric Administration / USA), providing horizontal accuracy up to 1852 meters (1 arc-meter) of any region of the world but with a limited capacity of exported file size
-* **MGDS** (Marine Geoscience Data System / USA), providing an exceptional horizontal accuracy up to 100 meters of any region of the world, including marine topography but excluding some continental regions like Europe.
+It allows you to find by name the coordinates of any country thanks to the *Google Geocoding API* and to reduce the exported file size by providing 5 different formats (XXL, XL, L, M, S).
 
 At first, you're asked to select an export directory in which to save the computed FdF maps. Then select a data provider and an available region of the world. Finally, choose a mode of export of the marine's coordinates between flatten and keep data.
+
+It extracts data from 3 different providers:
+* **IGN** (National Institute of Geographic and Forest Information / France), providing horizontal accuracy up to 250 meters of France and Overseas but excluding marine topography
+* **NOAA** (National Oceanic and Atmospheric Administration / USA), providing horizontal accuracy up to 1852 meters (1 arc-meter) of any region of the world but with a limited capacity of exported file size
+* **MGDS** (Marine Geoscience Data System / USA), providing an exceptional horizontal accuracy up to 100 meters of any region of the world, including marine topography but excluding some continental regions like Europe.
 
 ## install & launch
 
@@ -43,7 +41,7 @@ sh ./42MapGenerator --no-update --no-timeout
 ## preset regions
 
 <img src="http://i.imgur.com/g7dFnE9.png" align="right" height="725">
-##### IGN
+##### IGN :fr:
 
 * France Métropolitaine
 * DOM-TOM: Guadeloupe
@@ -52,13 +50,13 @@ sh ./42MapGenerator --no-update --no-timeout
 * DOM-TOM: Guyane
 * DOM-TOM: Saint Martin - Saint Barthélémy
 
-##### NOAA / MGDS
+##### NOAA / MGDS :us:
 
 * Whole world *(MGDS only)*
 * Antarctic *(MGDS only)*
 * Arctic *(MGDS only)*
 * Europe *(NOAA only)*
-* Alaska-Aleutians
+* Alaska-Aleutians *(MGDS only)*
 * Cascade Range (West Coast USA)
 * Central America
 * East African Rift System
@@ -79,6 +77,10 @@ sh ./42MapGenerator --no-update --no-timeout
 ## previews
 
 <img src="http://i.imgur.com/uO6Egii.png?1" width="50%" /><img src="http://i.imgur.com/v5uApWX.png" width="50%" /><img src="http://i.imgur.com/pkOpXLX.png" width="50%" /><img src="http://i.imgur.com/n3K2lh4.png" width="50%" />
+
+## about FdF format
+
+A map for the project FdF is a simple file based on the *ASCII Grid Format* whose headers are removed. The *ASCII Grid Format* is a good means of distributing raster image data files. It is widely supported and easy to import and export from most GIS softwares (Geographic Information System).
 
 ## credits
 

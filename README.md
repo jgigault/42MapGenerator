@@ -56,7 +56,7 @@ sh ./42MapGenerator --no-update --no-timeout
 * Antarctic *(MGDS only)*
 * Arctic *(MGDS only)*
 * Europe *(NOAA only)*
-* Alaska-Aleutians
+* Alaska-Aleutians *(MGDS only)*
 * Cascade Range (West Coast USA)
 * Central America
 * East African Rift System

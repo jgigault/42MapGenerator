@@ -29,7 +29,7 @@ cd "${GLOBAL_INSTALLDIR}"
 
 MAPGENERATOR_SH=1
 RETURNPATH=$(pwd | sed 's/ /\ /g')
-CVERSION=$(git log --oneline 2>/dev/null | wc -l | sed 's/ //g')
+CVERSION=$(git log --oneline 2>/dev/null | awk 'END {printf NR}' | sed 's/ //g')
 if [ "$CVERSION" == "" ]; then CVERSION="???"; fi
 
 OPT_NO_UPDATE=0

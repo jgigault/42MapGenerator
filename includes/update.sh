@@ -44,8 +44,8 @@ then
         LOCALBRANCH=$(git branch | grep '^\*' | cut -d" " -f2)
         LOCALHASH=`git show-ref | grep "refs/heads/${LOCALBRANCH}" | cut -d" " -f1 | awk '{print; exit}'`
         REMOTEHASH=`git ls-remote 2>/dev/null | grep refs/heads/${LOCALBRANCH} | cut -f1 | awk '{print; exit}'`
-        CVERSION=$(git log --oneline "refs/heads/${LOCALBRANCH}" | wc -l | sed 's/ //g')
-        VERSION=$(git log --oneline "refs/remotes/origin/${LOCALBRANCH}" | wc -l | sed 's/ //g')
+        CVERSION=$(git log --oneline "refs/heads/${LOCALBRANCH}" | awk 'END {printf NR}' | sed 's/ //g')
+        VERSION=$(git log --oneline "refs/remotes/origin/${LOCALBRANCH}" | awk 'END {printf NR}' | sed 's/ //g')
         display_header "${C_INVERTRED}"
         printf "${C_RED}"
         if [ "${REMOTEHASH}" != "${LOCALHASH}" -a "${REMOTEHASH}" != "" -a "${CVERSION}" -lt "${VERSION}" ]

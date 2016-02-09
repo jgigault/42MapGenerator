@@ -12,14 +12,20 @@ then
     then
       display_error "Welcome! You must specify an export directory at first"
       printf "\n"
+      display_menu\
+        "" "Select a location where to find an export directory:"\
+        "config_path_select HOME" "Home directory:       ~/"\
+        "config_path_select TMP" "Temporary directory:  /tmp"\
+        "config_path_select ROOT" "Root folder:          /"
+    else
+      display_menu\
+        "" "Select a location where to find an export directory:"\
+        "config_path_select HOME" "Home directory:       ~/"\
+        "config_path_select TMP" "Temporary directory:  /tmp"\
+        "config_path_select ROOT" "Root folder:          /"\
+        "_"\
+        "config_path_select" "CANCEL"
     fi
-    display_menu\
-      "" "Select a location where to find an export directory:"\
-      "config_path_select HOME" "Home directory:       ~/"\
-      "config_path_select TMP" "Temporary directory:  /tmp"\
-      "config_path_select ROOT" "Root folder:          /"\
-      "_"\
-      "config_path_select" "CANCEL"
     display_header
     display_section
     if [ "${STARTDIR}" != "*" ]

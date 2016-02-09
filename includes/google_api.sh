@@ -7,6 +7,7 @@ then
 
   function main_google_api
   {
+    local PREVIEWLINK
     MAPS_ID=0
     MAPS_FORMAT=""
     MAPS[0]=$(utils_get_config "customTITLE")
@@ -17,12 +18,15 @@ then
       MAPS[5]=$(utils_get_config "customEAST")
       MAPS[6]=$(utils_get_config "customSOUTH")
       MAPS[7]=$(utils_get_config "customWEST")
+      PREVIEWLINK="http://www.marine-geo.org/tools/gmrt_image_1.php?maptool=1\&north=$(utils_maps_get_coor "NORTH" "${MAPS_ID}")\&west=$(utils_maps_get_coor "WEST" "${MAPS_ID}")\&east=$(utils_maps_get_coor "EAST" "${MAPS_ID}")\&south=$(utils_maps_get_coor "SOUTH" "${MAPS_ID}")\&mask=0"
       display_header
       display_section
       display_menu\
         "" ""\
         "google_api_generate" "Generate map"\
         "google_api_search" "Change country"\
+        "_"\
+        "open ${PREVIEWLINK}" "Get a preview image on MGDS portal"\
         "_"\
         "${RETURNFUNCTION}" "CANCEL"
     else

@@ -98,7 +98,7 @@ then
     local RES0 LOCALBRANCH=$(git branch | grep '^\*' | cut -d" " -f2)
     local LOGFILENAME=".myret"
     display_header
-    printf "\n\n"
+    printf "\n"
     printf "${C_BLUE}  %s\n" "Updating 42MapGenerator..."
     rm -f ${LOGFILENAME}
     (git fetch --all >/dev/null 2>&1) &
@@ -113,6 +113,7 @@ then
       (git shortlog -s | awk 'BEGIN {rev=0} {rev+=$1} END {printf rev"\n"}' >.myrev 2>/dev/null) &
       display_spinner $!
       sleep 0.5
+      utils_before_exit
       sh ./42MapGenerator.sh
     else
       display_error "An error occured"

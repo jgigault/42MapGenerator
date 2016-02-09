@@ -51,11 +51,16 @@ then
     fi
   }
 
-  function utils_exit
+  function utils_before_exit
   {
     printf "\n\n\n\n\033[0m"
     tput cnorm
     tput rmcup
+  }
+
+  function utils_exit
+  {
+    utils_before_exit
     cd "${GLOBAL_ENTRYPATH}"
     exit
   }

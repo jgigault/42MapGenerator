@@ -7,24 +7,30 @@ then
 
   function main_google_api
   {
+    local ADDRESSTYPE="${1}"
+    main_google_api_menu
+  }
+
+  function main_google_api_menu
+  {
     local PREVIEWLINK
     MAPS_ID=0
     MAPS_FORMAT=""
-    MAPS[0]=$(utils_get_config "customTITLE")
+    MAPS[0]=$(utils_get_config "custom_${ADDRESSTYPE}_TITLE")
     if [ "${MAPS[0]}" != "" ]
     then
-      MAPS[1]="CUSTOM_$(echo "${MAPS[0]}" | awk '{gsub(/ /, "_"); print toupper($0)}')"
-      MAPS[4]=$(utils_get_config "customNORTH")
-      MAPS[5]=$(utils_get_config "customEAST")
-      MAPS[6]=$(utils_get_config "customSOUTH")
-      MAPS[7]=$(utils_get_config "customWEST")
+      MAPS[1]="CUSTOM_$(echo "${ADDRESSTYPE}_${MAPS[0]}" | awk '{gsub(/ /, "_"); print toupper($0)}')"
+      MAPS[4]=$(utils_get_config "custom_${ADDRESSTYPE}_NORTH")
+      MAPS[5]=$(utils_get_config "custom_${ADDRESSTYPE}_EAST")
+      MAPS[6]=$(utils_get_config "custom_${ADDRESSTYPE}_SOUTH")
+      MAPS[7]=$(utils_get_config "custom_${ADDRESSTYPE}_WEST")
       PREVIEWLINK="http://www.marine-geo.org/tools/gmrt_image_1.php?maptool=1\&north=$(utils_maps_get_coor "NORTH" "${MAPS_ID}")\&west=$(utils_maps_get_coor "WEST" "${MAPS_ID}")\&east=$(utils_maps_get_coor "EAST" "${MAPS_ID}")\&south=$(utils_maps_get_coor "SOUTH" "${MAPS_ID}")\&mask=0"
       display_header
       display_section
       display_menu\
         "" ""\
         "google_api_generate" "Generate map"\
-        "google_api_search" "Change country"\
+        "google_api_search" "Change ${ADDRESSTYPE}"\
         "_"\
         "open ${PREVIEWLINK}" "Get a preview image on MGDS portal"\
         "_"\
@@ -56,7 +62,7 @@ then
   {
     local TITLE="" TITLEURL MSG JSON0 JSON1 STATUS=""
     MAPS[0]=""
-    utils_save_config "customTITLE" ""
+    utils_save_config "custom_${ADDRESSTYPE}_TITLE" ""
     while [ "${MAPS[0]}" == "" ]
     do
       display_header
@@ -89,7 +95,7 @@ then
       fi
       printf "${C_WHITE}"
       tput cnorm
-      read -p "  Type a country name (e.g. Spain): " -e TITLE
+      read -p "  Type a ${ADDRESSTYPE} name: " -e TITLE
       tput civis
       printf "${C_CLEAR}"
       if [ "${TITLE}" == "" ]
@@ -101,24 +107,24 @@ then
         display_section
         printf "${C_BLUE}  %s\n\n" "Looking for coordinates..."
         sleep 0.3
-        (curl -s "https://maps.googleapis.com/maps/api/geocode/json?components=country:${TITLEURL}&key=${GOOGLE_API_KEY}" > .myret 2>&1) &
+        (curl -s "https://maps.googleapis.com/maps/api/geocode/json?components=${ADDRESSTYPE}:${TITLEURL}&key=${GOOGLE_API_KEY}" > .myret 2>&1) &
         display_spinner $!
         JSON0=`cat .myret | sed 's/[" ,]//g'`
         STATUS=`echo "${JSON0}" | grep "status" | cut -d: -f2 | sed 's/[ \t]*//g'`
         if [ "${STATUS}" == "OK" ]
         then
-          TITLE=`cat .myret | sed 's/[",]//g' | grep "formatted_address" | cut -d":" -f2 | sed 's/^[ ]*//g' | sed 's/[ ]*$//g'`
+          TITLE=`cat .myret | sed 's/[",]//g' | awk 'BEGIN {FS=":"} $0 ~/formatted_address/ {print $2; exit}' | sed 's/^[ ]*//g' | sed 's/[ ]*$//g'`
           JSON1=`echo "${JSON0}" | awk 'BEGIN {OFS=""; VIEWPORT=0; NORTHEAST=0; SOUTHWEST=0 } $0 ~ /viewport/ {VIEWPORT=1} $0 ~ /northeast/ {if (VIEWPORT==1 && NORTHEAST==0) { NORTHEAST=1 }} $0 ~ /lat/ {if (NORTHEAST>0) {printf "NE" $0 "\n"; NORTHEAST+=1}} $0 ~ /lng/ {if (NORTHEAST>0) {printf "NE" $0 "\n"; NORTHEAST+=1}} $0 ~ /southwest/ {if (VIEWPORT==1 && SOUTHWEST==0) { SOUTHWEST=1 }} $0 ~ /lat/ {if (SOUTHWEST>0) {printf "SW" $0 "\n"; SOUTHWEST+=1}} $0 ~ /lng/ {if (SOUTHWEST>0) {printf "SW" $0 "\n"; SOUTHWEST+=1}} {if (NORTHEAST==3) {NORTHEAST=-1} if(SOUTHWEST==3) {SOUTHWEST=-1}}'`
-          utils_save_config "customWEST" "$(printf "%.4f" "$(printf "%s" "${JSON1}" | grep "SWlng" | cut -d":" -f2)")"
-          utils_save_config "customEAST" "$(printf "%.4f" "$(printf "%s" "${JSON1}" | grep "NElng" | cut -d":" -f2)")"
-          utils_save_config "customSOUTH" "$(printf "%.4f" "$(printf "%s" "${JSON1}" | grep "SWlat" | cut -d":" -f2)")"
-          utils_save_config "customNORTH" "$(printf "%.4f" "$(printf "%s" "${JSON1}" | grep "NElat" | cut -d":" -f2)")"
-          utils_save_config "customTITLE" "${TITLE}"
+          utils_save_config "custom_${ADDRESSTYPE}_WEST" "$(printf "%.4f" "$(printf "%s" "${JSON1}" | grep "SWlng" | cut -d":" -f2)")"
+          utils_save_config "custom_${ADDRESSTYPE}_EAST" "$(printf "%.4f" "$(printf "%s" "${JSON1}" | grep "NElng" | cut -d":" -f2)")"
+          utils_save_config "custom_${ADDRESSTYPE}_SOUTH" "$(printf "%.4f" "$(printf "%s" "${JSON1}" | grep "SWlat" | cut -d":" -f2)")"
+          utils_save_config "custom_${ADDRESSTYPE}_NORTH" "$(printf "%.4f" "$(printf "%s" "${JSON1}" | grep "NElat" | cut -d":" -f2)")"
+          utils_save_config "custom_${ADDRESSTYPE}_TITLE" "${TITLE}"
           MAPS[0]="${TITLE}"
         fi
       fi
     done
-    main_google_api
+    main_google_api_menu
   }
 
 fi

@@ -12,7 +12,7 @@ then
     display_section
     display_menu\
       "" "Find a country or select a preset region:"\
-      "main_google_api" "Find a country"\
+      "main_google_api country" "Find a country"\
       "_"\
       "MAPS" "MAPS_NOAA" "main_noaa_preset"\
       "_"\

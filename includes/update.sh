@@ -114,7 +114,7 @@ then
       display_spinner $!
       sleep 0.5
       utils_before_exit
-      sh ./42MapGenerator.sh
+      sh ./42MapGenerator.sh "--with-entrypath" "${GLOBAL_ENTRYPATH}"
     else
       display_error "An error occured"
       display_error "If the error persists, try to discard this directory and clone again"

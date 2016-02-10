@@ -9,6 +9,26 @@
 # jgigault @ student.42.fr |_|       06 51 15 98 82 #
 #####################################################
 
+OPT_NO_UPDATE=0
+OPT_NO_COLOR=0
+OPT_NO_TIMEOUT=0
+OPT_WITH_ENTRYPATH=0
+
+i=1
+while (( i <= $# ))
+do
+  case "${!i}" in
+    "--no-update") OPT_NO_UPDATE=1 ;;
+    "--no-color") OPT_NO_COLOR=1 ;;
+    "--no-timeout") OPT_NO_TIMEOUT=1 ;;
+    "--with-entrypath")
+      OPT_WITH_ENTRYPATH=1
+      (( i += 1 ))
+      GLOBAL_ENTRYPATH="${!i}"
+      ;;
+  esac
+  (( i += 1 ))
+done
 
 function mapgen_install_dir
 {
@@ -23,7 +43,10 @@ function mapgen_install_dir
   printf "%s" "$(cd -P "$(dirname "${SOURCE}")" && pwd)"
 }
 
-GLOBAL_ENTRYPATH=$(pwd)
+if [ "${OPT_WITH_ENTRYPATH}" == "0" -o "${GLOBAL_ENTRYPATH}" == "" ]
+then
+  GLOBAL_ENTRYPATH=$(pwd)
+fi
 GLOBAL_INSTALLDIR=$(mapgen_install_dir)
 cd "${GLOBAL_INSTALLDIR}"
 
@@ -32,20 +55,6 @@ RETURNPATH=$(pwd | sed 's/ /\ /g')
 CVERSION=$(git log --oneline 2>/dev/null | awk 'END {printf NR}' | sed 's/ //g')
 if [ "$CVERSION" == "" ]; then CVERSION="???"; fi
 
-OPT_NO_UPDATE=0
-OPT_NO_COLOR=0
-OPT_NO_TIMEOUT=0
-
-i=1
-while (( i <= $# ))
-do
-  case "${!i}" in
-    "--no-update") OPT_NO_UPDATE=1 ;;
-    "--no-color") OPT_NO_COLOR=1 ;;
-    "--no-timeout") OPT_NO_TIMEOUT=1 ;;
-  esac
-  (( i += 1 ))
-done
 
 source includes/maps.sh
 source includes/data_providers.sh
@@ -97,11 +106,6 @@ function main
 
 utils_set_env
 utils_set_colors
-
-#if [ "$OPT_NO_UPDATE" == "0" ]
-#then
-  #update
-#fi
 
 tput civis
 tput smcup

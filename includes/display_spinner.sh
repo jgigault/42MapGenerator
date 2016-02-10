@@ -5,12 +5,9 @@ then
 
   function display_spinner
   {
-    local pid=$1
-    local total_delay=0
-    local total_delay2=240
-    local delay=0.2
-    local spinstr='|/-\'
-    printf $C_BLUE""
+    local pid=$1 total_delay=0 total_delay2=240 delay=0.2 spinstr='|/-\'
+    CURRENT_CHILD_PROCESS_PID="${pid}"
+    printf "${C_BLUE}"
     while [ "$(ps a | awk '{print $1}' | grep $pid)" ];
     do
       if (( $total_delay2 < 1 ))
@@ -40,7 +37,8 @@ then
       fi
     done
     printf "                     \b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"
-    printf $C_CLEAR""
+    printf "${C_CLEAR}"
+    CURRENT_CHILD_PROCESS_PID=""
   }
 
 fi

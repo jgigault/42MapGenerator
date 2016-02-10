@@ -76,6 +76,7 @@ source includes/mgds.sh
 source includes/config.sh
 source includes/credits.sh
 source includes/update.sh
+source includes/signals.sh
 
 
 function main
@@ -104,12 +105,4 @@ function main
   fi
 }
 
-utils_set_env
-utils_set_colors
-
-tput civis
-tput smcup
-utils_update
-tput rmcup
-tput cnorm
-cd "${GLOBAL_ENTRYPATH}"
+utils_start

@@ -51,6 +51,17 @@ then
     fi
   }
 
+  function utils_start
+  {
+    tput civis
+    tput smcup
+    utils_set_env
+    utils_set_colors
+    utils_catch_signals
+    utils_update
+    utils_exit
+  }
+
   function utils_before_exit
   {
     printf "\n\n\n\n\033[0m"

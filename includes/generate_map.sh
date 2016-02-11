@@ -85,10 +85,7 @@ then
 
   function generate_map
   {
-    local REDUCE_XY_FACTOR=1
-    local REDUCE_Z_FACTOR=1
-    local OCEAN_Z=-10
-    local UNKNOWN_Z=-10
+    local REDUCE_XY_FACTOR=1 REDUCE_Z_FACTOR=1 OCEAN_Z=-10 UNKNOWN_Z=-10 EXPORTED_NROWS EXPORTED_NCOLS EXPORTED_FILESIZE
     case "${MAPS_FORMAT}" in
       "XL")
         REDUCE_XY_FACTOR=2
@@ -167,7 +164,17 @@ then
     display_spinner $!
     display_header
     display_section
-    display_success "Export was successful!"
+    if [ -f "${MY_EXPORT_PATH}/${MY_EXPORT_PATH_FILENAME}" ]
+    then
+      EXPORTED_NROWS="$(awk 'BEGIN{OFS=""; ORS=""; TOTAL=0} NF > 2 {TOTAL+=1} END {print TOTAL/1}' "${MY_EXPORT_PATH}/${MY_EXPORT_PATH_FILENAME}")"
+      EXPORTED_NCOLS="$(awk 'BEGIN{OFS=""; ORS=""} NF > 2 {print NF/1; exit}' "${MY_EXPORT_PATH}/${MY_EXPORT_PATH_FILENAME}")"
+      EXPORTED_FILESIZE="$(du -k -h "${MY_EXPORT_PATH}/${MY_EXPORT_PATH_FILENAME}" | cut -f 1)"
+      display_success "Export was successful!"
+      display_success "Map size:  ${EXPORTED_NCOLS} x ${EXPORTED_NROWS} (width x height)"
+      display_success "File size: ${EXPORTED_FILESIZE}"
+    else
+      display_error "An error occured, no file exported"
+    fi
     printf "\n"
     display_menu\
       "" ""\

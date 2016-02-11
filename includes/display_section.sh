@@ -25,11 +25,11 @@ then
             then
               case "${OCEAN_TOPOGRAPHY}" in
                 "unavailable")
-                  printf "${C_GREY}  Ocean topography:   ${C_WHITE}Unavailable\n"; ;;
+                  printf "${C_GREY}  Marine topography:  ${C_WHITE}Unavailable\n"; ;;
                 "yes")
-                  printf "${C_GREY}  Ocean topography:   ${C_WHITE}Keep data\n"; ;;
+                  printf "${C_GREY}  Marine topography:  ${C_WHITE}Keep data\n"; ;;
                 "no")
-                  printf "${C_GREY}  Ocean topography:   ${C_WHITE}Flatten ocean\n"; ;;
+                  printf "${C_GREY}  Marine topography:  ${C_WHITE}Flatten ocean\n"; ;;
               esac
               if [ "${MY_EXPORT_PATH_FILENAME}" != "" ]
               then

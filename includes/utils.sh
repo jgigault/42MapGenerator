@@ -12,6 +12,7 @@ then
     then
       COLUMNS=80
     fi
+    export LC_NUMERIC=C LC_COLLATE=C LANG=C
   }
 
   function utils_set_colors

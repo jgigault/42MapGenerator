@@ -85,7 +85,7 @@ then
 
   function generate_map
   {
-    local REDUCE_XY_FACTOR=1 REDUCE_Z_FACTOR=1 OCEAN_Z=-10 UNKNOWN_Z=-10 EXPORTED_NROWS EXPORTED_NCOLS EXPORTED_FILESIZE
+    local REDUCE_XY_FACTOR=1 REDUCE_Z_FACTOR=1 OCEAN_Z=-10 UNKNOWN_Z=-10 EXPORTED_NROWS EXPORTED_NCOLS EXPORTED_FILESIZE UNKNOWN_Z_ORIG MAP_TMPFILE="${MAPS_TMPDIR}$(utils_data_provider_get_abbr "${DATA_PROVIDER_ID}")_${FILENAME}.txt"
     case "${MAPS_FORMAT}" in
       "XL")
         REDUCE_XY_FACTOR=2
@@ -112,6 +112,11 @@ then
         UNKNOWN_Z=-1
         ;;
     esac
+    UNKNOWN_Z_ORIG="$(awk 'tolower($1) ~ /nodata_value/ {print $2} {if (NF > 3) {exit}}' "${MAP_TMPFILE}")"
+    if [ "${UNKNOWN_Z_ORIG}" == "" ]
+    then
+      UNKNOWN_Z_ORIG=-9999
+    fi
     display_header
     display_section
     printf "${C_BLUE}  %s\n\n" "Computing data..."
@@ -121,45 +126,62 @@ then
       -v UNKNOWN_Z="${UNKNOWN_Z}"\
       -v OCEAN_Z="${OCEAN_Z}"\
       -v OCEAN_TOPOGRAPHY="${OCEAN_TOPOGRAPHY}"\
-      'BEGIN {odd=0}\
+      -v UNKNOWN_Z_ORIG="${UNKNOWN_Z_ORIG}"\
+      'BEGIN {ODD=0; DO_IT=0}\
       {\
-        odd+=1;\
-        if(odd==1)\
+        DO_IT=0;\
+        if (NF > 3)\
         {\
-          for(i=1;i<=NF;i++)\
+          for (i=1; i<=NF; i++)\
           {\
-            if(OCEAN_TOPOGRAPHY=="unavailable" && $i==-9999)\
+            if ($i!=UNKNOWN_Z_ORIG)\
             {\
-              printf UNKNOWN_Z\
-            }\
-            else\
-            {\
-              if(OCEAN_TOPOGRAPHY!="yes" && $i<0)\
-              {\
-                printf OCEAN_Z\
-              }\
-              else\
-              {\
-                printf("%d", $i/REDUCE_Z_FACTOR)\
-              }\
-            }\
-            i+=REDUCE_XY_FACTOR;\
-            if(i>=NF)\
-            {\
-              printf "\n"\
-            }\
-            else\
-            {\
-              printf " "\
+              DO_IT=1;\
+              break\
             }\
           }\
         }\
-        if(odd==REDUCE_XY_FACTOR)\
-        {\
-          odd=0\
+      }\
+      {\
+        if(DO_IT==1) {\
+          ODD+=1;\
+          if(ODD==1)\
+          {\
+            for(i=1;i<=NF;i++)\
+            {\
+              if(OCEAN_TOPOGRAPHY=="unavailable" && $i==UNKNOWN_Z_ORIG)\
+              {\
+                printf UNKNOWN_Z\
+              }\
+              else\
+              {\
+                if(OCEAN_TOPOGRAPHY!="yes" && $i<0)\
+                {\
+                  printf OCEAN_Z\
+                }\
+                else\
+                {\
+                  printf("%d", $i/REDUCE_Z_FACTOR)\
+                }\
+              }\
+              i+=REDUCE_XY_FACTOR;\
+              if(i>=NF)\
+              {\
+                printf "\n"\
+              }\
+              else\
+              {\
+                printf " "\
+              }\
+            }\
+          }\
+          if(ODD==REDUCE_XY_FACTOR)\
+          {\
+            ODD=0\
+          }\
         }\
       }'\
-      "${MAPS_TMPDIR}$(utils_data_provider_get_abbr "${DATA_PROVIDER_ID}")_${FILENAME}.txt" > "${MY_EXPORT_PATH}/${MY_EXPORT_PATH_FILENAME}"\
+      "${MAP_TMPFILE}" > "${MY_EXPORT_PATH}/${MY_EXPORT_PATH_FILENAME}"\
     ) &
     display_spinner $!
     display_header

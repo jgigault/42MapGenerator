@@ -109,11 +109,11 @@ then
         sleep 0.3
         (curl -s "https://maps.googleapis.com/maps/api/geocode/json?components=${ADDRESSTYPE}:${TITLEURL}&key=${GOOGLE_API_KEY}" > .myret 2>&1) &
         display_spinner $!
-        JSON0=`cat .myret | sed 's/[" ,]//g'`
-        STATUS=`echo "${JSON0}" | grep "status" | cut -d: -f2 | sed 's/[ \t]*//g'`
+        STATUS=`cat .myret | sed 's/[" ,]//g' | grep "status" | cut -d: -f2 | sed 's/[ \t]*//g'`
         if [ "${STATUS}" == "OK" ]
         then
           TITLE=`cat .myret | sed 's/[",]//g' | awk 'BEGIN {FS=":"} $0 ~/formatted_address/ {print $2; exit}' | sed 's/^[ ]*//g' | sed 's/[ ]*$//g'`
+          JSON0=`awk 'BEGIN {COUNT=0} {print} $0 ~ /address_components/ {COUNT+=1; if (COUNT==2) {exit}}' .myret | sed 's/[" ,]//g'`
           JSON1=`echo "${JSON0}" | awk 'BEGIN {OFS=""; VIEWPORT=0; NORTHEAST=0; SOUTHWEST=0 } $0 ~ /viewport/ {VIEWPORT=1} $0 ~ /northeast/ {if (VIEWPORT==1 && NORTHEAST==0) { NORTHEAST=1 }} $0 ~ /lat/ {if (NORTHEAST>0) {printf "NE" $0 "\n"; NORTHEAST+=1}} $0 ~ /lng/ {if (NORTHEAST>0) {printf "NE" $0 "\n"; NORTHEAST+=1}} $0 ~ /southwest/ {if (VIEWPORT==1 && SOUTHWEST==0) { SOUTHWEST=1 }} $0 ~ /lat/ {if (SOUTHWEST>0) {printf "SW" $0 "\n"; SOUTHWEST+=1}} $0 ~ /lng/ {if (SOUTHWEST>0) {printf "SW" $0 "\n"; SOUTHWEST+=1}} {if (NORTHEAST==3) {NORTHEAST=-1} if(SOUTHWEST==3) {SOUTHWEST=-1}}'`
           utils_save_config "custom_${ADDRESSTYPE}_WEST" "$(printf "%.4f" "$(printf "%s" "${JSON1}" | grep "SWlng" | cut -d":" -f2)")"
           utils_save_config "custom_${ADDRESSTYPE}_EAST" "$(printf "%.4f" "$(printf "%s" "${JSON1}" | grep "NElng" | cut -d":" -f2)")"

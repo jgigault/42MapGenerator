@@ -147,10 +147,6 @@ then
         "open https://github.com/jgigault/42MapGenerator/issues/new" "REPORT A BUG"\
         "utils_exit" "EXIT"
       return 1
-    else
-      awk '{if(NF > 3) {print $0}}' "${MAPS_TMPDIR}$1" > "${MAPS_TMPDIR}$1.tmp"
-      rm -f "${MAPS_TMPDIR}$1"
-      mv "${MAPS_TMPDIR}$1.tmp" "${MAPS_TMPDIR}$1"
     fi
     return 0
   }

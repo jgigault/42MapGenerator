@@ -1,6 +1,6 @@
 # 42MapGenerator (v2)
 
-<img src="http://i.imgur.com/wnXCjUK.png" align="right" />42 Map Generator is a tiny bash script developed at 42 school for downloading and generating maps of the real world for the pedagogical project FdF.
+<img src="http://i.imgur.com/wnXCjUK.png" align="right" />42 Map Generator is a tiny bash script developed at 42 school for downloading and generating maps of the real world for the pedagogical project **Fil de Fer** (FdF).
 
 It allows you to find by name the coordinates of any country thanks to the *Google Geocoding API* and to reduce the exported file size by providing 5 different formats (XXL, XL, L, M, S).
 
@@ -78,9 +78,28 @@ sh ./42MapGenerator --no-update --no-timeout
 
 <img src="http://i.imgur.com/uO6Egii.png?1" width="50%" /><img src="http://i.imgur.com/v5uApWX.png" width="50%" /><img src="http://i.imgur.com/pkOpXLX.png" width="50%" /><img src="http://i.imgur.com/n3K2lh4.png" width="50%" />
 
-## about FdF format
+## about FdF and its map format
 
-A map for the project FdF is a simple file based on the *ASCII Grid Format* whose headers are removed. The *ASCII Grid Format* is a good means of distributing raster image data files. It is widely supported and easy to import and export from most GIS softwares (Geographic Information System).
+The project **Fil de Fer** consists in creating a graphical representation of a land, dynamicaly generated from a list of elevation coordinates.
+
+A map for the project FdF is a simple text file based on the [*ARC/INFO Grid Format*](https://en.wikipedia.org/wiki/Esri_grid) whose headers are removed.
+
+Here is a sample ASCII Grid Format:
+
+```text
+ncols         4
+nrows         6
+xllcorner     0.0
+yllcorner     0.0
+cellsize      50.0
+NODATA_value  -9999
+-9999 -9999 5 2
+-9999 20 100 36
+3 8 35 10
+32 42 50 6
+88 75 27 9
+13 5 1 -9999
+```
 
 ## credits
 

@@ -15,6 +15,18 @@ then
     fi
   }
 
+  function download_map_and_extract_gz
+  {
+    local TMPFILENAME="$(utils_data_provider_get_abbr "${DATA_PROVIDER_ID}")_${FILENAME}.txt"
+    if [ ! -f "${MAPS_TMPDIR}${TMPFILENAME}" ]
+    then
+      download_map "${TMPFILENAME}.gz" "$(utils_data_provider_get_url "${DATA_PROVIDER_ID}")${FILENAME}.gz" && extract_map "${TMPFILENAME}.gz" "${TMPFILENAME}" && check_headers "${TMPFILENAME}"
+      return "$?"
+    else
+      return 0
+    fi
+  }
+
   function download_map_with_mapbox
   {
     local TMPFILENAME="$(utils_data_provider_get_abbr "${DATA_PROVIDER_ID}")_${FILENAME}.txt" URL_REQUEST="$(utils_data_provider_get_url "${DATA_PROVIDER_ID}")" NORTH=$(utils_maps_get_coor "NORTH" "${MAPS_ID}") EAST=$(utils_maps_get_coor "EAST" "${MAPS_ID}") SOUTH=$(utils_maps_get_coor "SOUTH" "${MAPS_ID}") WEST=$(utils_maps_get_coor "WEST" "${MAPS_ID}")
@@ -65,14 +77,20 @@ then
 
   function extract_map
   {
-    local EXTRACTED_FILE EXTRACT_DIRECTORY="${MAPS_TMPDIR}extract/"
-    create_tmp_dir "extract/"
+    local IS_TXTGZ=0 EXTRACTED_FILE="" EXTRACT_DIRECTORY="${MAPS_TMPDIR}extract/"
     display_header
     display_section
     printf "${C_BLUE}  %s\n\n" "Extracting map from archive..."
     sleep 0.5
     rm -rf "${EXTRACT_DIRECTORY}"
-    (unzip -o -j -d "${EXTRACT_DIRECTORY}" "${MAPS_TMPDIR}$1" \*.[Aa][Ss][Cc]) &
+    create_tmp_dir "extract/"
+    if [[ "${MAPS_TMPDIR}$1" =~ \.txt\.gz ]]
+    then
+      IS_TXTGZ=1
+      (gunzip -c "${MAPS_TMPDIR}$1" > "${MAPS_TMPDIR}$2") &
+    else
+      (unzip -o -j -d "${EXTRACT_DIRECTORY}" "${MAPS_TMPDIR}$1" \*.[Aa][Ss][Cc]) &
+    fi
     display_spinner $!
     if [ "$?" != "0" ]
     then
@@ -89,8 +107,8 @@ then
         "utils_exit" "EXIT"
       return 1
     else
-      EXTRACTED_FILE=`find "${EXTRACT_DIRECTORY}/" -name \*.[Aa][Ss][Cc] | awk '{if(NR==1) {print}}'`
-      if [ "${EXTRACTED_FILE}" == "" ]
+      [ "${IS_TXTGZ}" == "0" ] && EXTRACTED_FILE=`find "${EXTRACT_DIRECTORY}/" -name \*.[Aa][Ss][Cc] | awk '{if(NR==1) {print}}'`
+      if [ "${EXTRACTED_FILE}" == "" -a "${IS_TXTGZ}" == "0" ]
       then
         display_header
         display_section
@@ -105,9 +123,9 @@ then
           "utils_exit" "EXIT"
         return 1
       else
-        mv "${EXTRACTED_FILE}" "${MAPS_TMPDIR}$2"
-        rm -rf "${MAPS_TMPDIR}extract/"
+        [ "${IS_TXTGZ}" == "0" ] && mv "${EXTRACTED_FILE}" "${MAPS_TMPDIR}$2"
         rm -f "${MAPS_TMPDIR}$1"
+        rm -rf "${MAPS_TMPDIR}extract/"
         printf "\n${C_BLUE}  Completed!\n\n"
         sleep 1
       fi

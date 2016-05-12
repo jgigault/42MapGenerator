@@ -24,12 +24,19 @@ then
   DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="ocean_topography_available"
   DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="MGDS"
 
+  DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="ULCN2005 (Unified Lunar Control Network 2005)"
+  DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="Horizontal accuracy up to 100 meters"
+  DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="http://pubs.usgs.gov/of/2006/1367/dems/Arc_grids/"
+  DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="ocean_topography_available"
+  DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="ULCN2005"
+
   function utils_data_provider_id
   {
     case $1 in
       "IGN")  printf "0" ;;
       "NOAA") printf "$((1 * ${DATA_PROVIDERS_SHIFT}))" ;;
       "MGDS") printf "$((2 * ${DATA_PROVIDERS_SHIFT}))" ;;
+      "ULCN2005") printf "$((3 * ${DATA_PROVIDERS_SHIFT}))" ;;
     esac
   }
 

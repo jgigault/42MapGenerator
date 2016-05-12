@@ -61,6 +61,10 @@ then
         download_map_and_extract_zip
         DOWNLOAD_STATUS=$?
         ;;
+      "download_and_extract_gz")
+        download_map_and_extract_gz
+        DOWNLOAD_STATUS=$?
+        ;;
       "download_with_mapbox")
         download_map_with_mapbox
         DOWNLOAD_STATUS=$?

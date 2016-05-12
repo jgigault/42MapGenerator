@@ -151,7 +151,7 @@ then
           ODD+=1;\
           if(ODD==1)\
           {\
-            for(i=1;i<=NF;i++)\
+            for(i=1;i<=NF;i=i+REDUCE_XY_FACTOR)\
             {\
               if(OCEAN_TOPOGRAPHY=="unavailable" && $i==UNKNOWN_Z_ORIG)\
               {\
@@ -168,7 +168,6 @@ then
                   printf("%d", $i/REDUCE_Z_FACTOR)\
                 }\
               }\
-              i+=REDUCE_XY_FACTOR;\
               if(i>=NF)\
               {\
                 printf "\n"\

@@ -73,7 +73,7 @@ source includes/google_api.sh
 source includes/ign.sh
 source includes/noaa.sh
 source includes/mgds.sh
-source includes/ulcn2005.sh
+source includes/usgs.sh
 source includes/config.sh
 source includes/credits.sh
 source includes/update.sh
@@ -94,7 +94,7 @@ function main
       main_ign "${DATA_PROVIDERS[$(utils_data_provider_id "IGN")]}"\
       main_noaa "${DATA_PROVIDERS[$(utils_data_provider_id "NOAA")]}"\
       main_mgds "${DATA_PROVIDERS[$(utils_data_provider_id "MGDS")]}"\
-      main_ulcn2005 "${DATA_PROVIDERS[$(utils_data_provider_id "ULCN2005")]}"\
+      main_usgs "${DATA_PROVIDERS[$(utils_data_provider_id "USGS")]}"\
       "_"\
       "config_path" "Change export directory"\
       "_"\

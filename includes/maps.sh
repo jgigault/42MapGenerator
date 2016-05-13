@@ -8,7 +8,7 @@ then
   declare -a MAPS_IGN='(1 2 3 4 5 6)'
   declare -a MAPS_NOAA='(10 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27)'
   declare -a MAPS_MGDS='(7 8 9 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27)'
-  declare -a MAPS_ULCN2005='(28)'
+  declare -a MAPS_USGS='(28)'
 
   # RESERVED FOR CUSTOM COORDINATES
 
@@ -268,9 +268,9 @@ then
   MAPS[${#MAPS[*]}]="-23"
   MAPS[${#MAPS[*]}]="-178"
 
-  # ULCN2005
+  # USGS
 
-  MAPS[${#MAPS[*]}]="Earth's moon topography"
+  MAPS[${#MAPS[*]}]="Earth's moon"
   MAPS[${#MAPS[*]}]="ULCN2005_grid.txt"
   MAPS[${#MAPS[*]}]="download_and_extract_gz"
   MAPS[${#MAPS[*]}]="26M"

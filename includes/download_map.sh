@@ -5,10 +5,11 @@ then
 
   function download_map_and_extract_zip
   {
-    local TMPFILENAME="$(utils_data_provider_get_abbr "${DATA_PROVIDER_ID}")_${FILENAME}.txt"
+    local TMPFILENAME="$(utils_data_provider_get_abbr "${DATA_PROVIDER_ID}")_${FILENAME}.txt" TMPDOWNLOADLINK
     if [ ! -f "${MAPS_TMPDIR}${TMPFILENAME}" ]
     then
-      download_map "${TMPFILENAME}.zip" "$(utils_data_provider_get_url "${DATA_PROVIDER_ID}")${FILENAME}.zip" && extract_map "${TMPFILENAME}.zip" "${TMPFILENAME}" && check_headers "${TMPFILENAME}"
+      [ "${DOWNLOADLINK}" == "" ] && TMPDOWNLOADLINK="$(utils_data_provider_get_url "${DATA_PROVIDER_ID}")${FILENAME}.zip" || TMPDOWNLOADLINK="${DOWNLOADLINK}"
+      download_map "${TMPFILENAME}.zip" "${TMPDOWNLOADLINK}" && extract_map "${TMPFILENAME}.zip" "${TMPFILENAME}" "${ARCHIVE_FILENAME}" && check_headers "${TMPFILENAME}"
       return "$?"
     else
       return 0
@@ -17,10 +18,11 @@ then
 
   function download_map_and_extract_gz
   {
-    local TMPFILENAME="$(utils_data_provider_get_abbr "${DATA_PROVIDER_ID}")_${FILENAME}.txt"
+    local TMPFILENAME="$(utils_data_provider_get_abbr "${DATA_PROVIDER_ID}")_${FILENAME}.txt" TMPDOWNLOADLINK
     if [ ! -f "${MAPS_TMPDIR}${TMPFILENAME}" ]
     then
-      download_map "${TMPFILENAME}.gz" "$(utils_data_provider_get_url "${DATA_PROVIDER_ID}")${FILENAME}.gz" && extract_map "${TMPFILENAME}.gz" "${TMPFILENAME}" && check_headers "${TMPFILENAME}"
+      [ "${DOWNLOADLINK}" == "" ] && TMPDOWNLOADLINK="$(utils_data_provider_get_url "${DATA_PROVIDER_ID}")${FILENAME}.zip" || TMPDOWNLOADLINK="${DOWNLOADLINK}"
+      download_map "${TMPFILENAME}.gz" "${TMPDOWNLOADLINK}" && extract_map "${TMPFILENAME}.gz" "${TMPFILENAME}" "${ARCHIVE_FILENAME}" && check_headers "${TMPFILENAME}"
       return "$?"
     else
       return 0
@@ -89,7 +91,12 @@ then
       IS_TXTGZ=1
       (gunzip -c "${MAPS_TMPDIR}$1" > "${MAPS_TMPDIR}$2") &
     else
-      (unzip -o -j -d "${EXTRACT_DIRECTORY}" "${MAPS_TMPDIR}$1" \*.[Aa][Ss][Cc]) &
+      if [ "${ARCHIVE_FILENAME}" != "${FILENAME}" ]
+      then
+        (unzip -o -j -d "${EXTRACT_DIRECTORY}" "${MAPS_TMPDIR}$1" "*${ARCHIVE_FILENAME}") &
+      else
+        (unzip -o -j -d "${EXTRACT_DIRECTORY}" "${MAPS_TMPDIR}$1" \*.[Aa][Ss][Cc]) &
+      fi
     fi
     display_spinner $!
     if [ "$?" != "0" ]
@@ -107,7 +114,12 @@ then
         "utils_exit" "EXIT"
       return 1
     else
-      [ "${IS_TXTGZ}" == "0" ] && EXTRACTED_FILE=`find "${EXTRACT_DIRECTORY}/" -name \*.[Aa][Ss][Cc] | awk '{if(NR==1) {print}}'`
+      if [ "${ARCHIVE_FILENAME}" != "${FILENAME}" ]
+      then
+        EXTRACTED_FILE=`find "${EXTRACT_DIRECTORY}/" -name "*${ARCHIVE_FILENAME}" | awk '{if(NR==1) {print}}'`
+      else
+        [ "${IS_TXTGZ}" == "0" ] && EXTRACTED_FILE=`find "${EXTRACT_DIRECTORY}/" -name \*.[Aa][Ss][Cc] | awk '{if(NR==1) {print}}'`
+      fi
       if [ "${EXTRACTED_FILE}" == "" -a "${IS_TXTGZ}" == "0" ]
       then
         display_header

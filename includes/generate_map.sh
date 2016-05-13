@@ -5,7 +5,7 @@ then
 
   function display_menu_format
   {
-    local FILENAME="$(utils_maps_get_filename "${MAPS_ID}")" PREVIEWLINK
+    local FILENAME="$(utils_maps_get_filename "${MAPS_ID}")" ARCHIVE_FILENAME="$(utils_maps_get_archive_filename "${MAPS_ID}")" DOWNLOADLINK="$(utils_maps_get_download_link "${MAPS_ID}")" PREVIEWLINK
     if [ "$(utils_maps_get_coor "NORTH" "${MAPS_ID}")" != "" ]
     then
       PREVIEWLINK="http://www.marine-geo.org/tools/gmrt_image_1.php?maptool=1\&north=$(utils_maps_get_coor "NORTH" "${MAPS_ID}")\&west=$(utils_maps_get_coor "WEST" "${MAPS_ID}")\&east=$(utils_maps_get_coor "EAST" "${MAPS_ID}")\&south=$(utils_maps_get_coor "SOUTH" "${MAPS_ID}")\&mask=0"
@@ -72,7 +72,7 @@ then
     esac
     if [ "${DOWNLOAD_STATUS}" == "0" ]
     then
-      MY_EXPORT_PATH_FILENAME="$(utils_data_provider_get_abbr "${DATA_PROVIDER_ID}")_${MAPS[$((${MAPS_ID} + 1))]}_$(if [ "${OCEAN_TOPOGRAPHY}" == "yes" ]; then printf "OCEAN1"; else  printf "OCEAN0"; fi)_${MAPS_FORMAT}.fdf"
+      MY_EXPORT_PATH_FILENAME="$(utils_data_provider_get_abbr "${DATA_PROVIDER_ID}")_$(utils_maps_get_filename "${MAPS_ID}")_$(if [ "${OCEAN_TOPOGRAPHY}" == "yes" ]; then printf "OCEAN1"; else  printf "OCEAN0"; fi)_${MAPS_FORMAT}.fdf"
       if [ ! -f "${MY_EXPORT_PATH}/${MY_EXPORT_PATH_FILENAME}" ]
       then
         generate_map

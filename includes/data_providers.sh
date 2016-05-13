@@ -24,7 +24,7 @@ then
   DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="ocean_topography_available"
   DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="MGDS"
 
-  DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="USGS (U.S. Geological Survey / USA)"
+  DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="USGS (Astrogeology Science Center / USA)"
   DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="Horizontal accuracy up to 100 meters"
   DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="http://pubs.usgs.gov/of/2006/1367/dems/Arc_grids/"
   DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="ocean_topography_available"

@@ -10,7 +10,7 @@ It extracts data from 3 different providers:
 * **`IGN`** (National Institute of Geographic and Forest Information / France), providing horizontal accuracy up to 250 meters of France and Overseas but excluding marine topography
 * **`NOAA`** (National Oceanic and Atmospheric Administration / USA), providing horizontal accuracy up to 1852 meters (1 arc-meter) of any region of the world but with a limited capacity of exported file size
 * **`MGDS`** (Marine Geoscience Data System / USA), providing an exceptional horizontal accuracy up to 100 meters of any region of the world, including marine topography but excluding some continental regions like Europe.
-* **`USGS`** (Astrogeology Science Center / USA), providing planetary data with horizontal accuracy up to 100 meters of Earth's moon, Venus and Mars, derived from Earth-based & spatial missions photographs.
+* **`USGS`** (Astrogeology Science Center / USA), providing planetary data with horizontal accuracy up to 100 meters of Earth's moon and Venus, derived from Earth-based & spatial missions photographs.
 
 ## install & launch
 
@@ -55,7 +55,6 @@ sh ./42MapGenerator --no-update --no-timeout
 
 * Earth's moon
 * Venus
-* Mars (soon available)
 
 ##### NOAA / MGDS
 

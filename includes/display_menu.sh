@@ -43,7 +43,12 @@ then
             (( TOTAL += 1 ))
             FUNCS[$TOTAL]="$3 $((${MAPSA} * ${MAPS_SHIFT}))"
             MENU[$TOTAL]="${!MAPSA}"
-            TITLE=`echo "${MAPS[$((${MAPSA} * ${MAPS_SHIFT}))]}" | sed 's/%/%%/g'`
+            if [ "${MAPS[$((${MAPSA} * ${MAPS_SHIFT} + 3))]}" != "" ]
+            then
+              TITLE=`echo "${MAPS[$((${MAPSA} * ${MAPS_SHIFT}))]} (${MAPS[$((${MAPSA} * ${MAPS_SHIFT} + 3))]})" | sed 's/%/%%/g'`
+            else
+              TITLE=`echo "${MAPS[$((${MAPSA} * ${MAPS_SHIFT}))]}" | sed 's/%/%%/g'`
+            fi
             if (( $TOTAL < 10 ))
             then
               SELN=${TOTAL}

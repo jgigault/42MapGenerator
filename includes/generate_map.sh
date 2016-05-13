@@ -192,9 +192,12 @@ then
     display_section
     if [ -f "${MY_EXPORT_PATH}/${MY_EXPORT_PATH_FILENAME}" ]
     then
+      printf "${C_BLUE}  %s\n\n" "Analyzing exported file..."
       EXPORTED_NROWS="$(awk 'BEGIN{OFS=""; ORS=""; TOTAL=0} NF > 2 {TOTAL+=1} END {print TOTAL/1}' "${MY_EXPORT_PATH}/${MY_EXPORT_PATH_FILENAME}")"
       EXPORTED_NCOLS="$(awk 'BEGIN{OFS=""; ORS=""} NF > 2 {print NF/1; exit}' "${MY_EXPORT_PATH}/${MY_EXPORT_PATH_FILENAME}")"
       EXPORTED_FILESIZE="$(du -k -h "${MY_EXPORT_PATH}/${MY_EXPORT_PATH_FILENAME}" | cut -f 1)"
+      display_header
+      display_section
       display_success "Export was successful!"
       display_success "Map size:  ${EXPORTED_NCOLS} x ${EXPORTED_NROWS} (width x height)"
       display_success "File size: ${EXPORTED_FILESIZE}"

@@ -4,12 +4,13 @@
 
 It allows you to find by name the coordinates of any country thanks to the *Google Geocoding API* and to reduce the exported file size by providing 5 different formats (XXL, XL, L, M, S).
 
-At first, you're asked to select an export directory in which to save the computed FdF maps. Then select a data provider and an available region of the world. Finally, choose a mode of export of the marine's coordinates between flatten and keep data.
+At first, you're asked to select an export directory in which to save the computed FdF maps. Then select a data provider and an available region of the world or a planet. Finally, choose a mode of export of the marine's coordinates between flatten and keep data.
 
 It extracts data from 3 different providers:
-* **IGN** (National Institute of Geographic and Forest Information / France), providing horizontal accuracy up to 250 meters of France and Overseas but excluding marine topography
-* **NOAA** (National Oceanic and Atmospheric Administration / USA), providing horizontal accuracy up to 1852 meters (1 arc-meter) of any region of the world but with a limited capacity of exported file size
-* **MGDS** (Marine Geoscience Data System / USA), providing an exceptional horizontal accuracy up to 100 meters of any region of the world, including marine topography but excluding some continental regions like Europe.
+* **`IGN`** (National Institute of Geographic and Forest Information / France), providing horizontal accuracy up to 250 meters of France and Overseas but excluding marine topography
+* **`NOAA`** (National Oceanic and Atmospheric Administration / USA), providing horizontal accuracy up to 1852 meters (1 arc-meter) of any region of the world but with a limited capacity of exported file size
+* **`MGDS`** (Marine Geoscience Data System / USA), providing an exceptional horizontal accuracy up to 100 meters of any region of the world, including marine topography but excluding some continental regions like Europe.
+* **`USGS`** (Astrogeology Science Center / USA), providing planetary data with horizontal accuracy up to 100 meters of Earth's moon, Venus and Mars, derived from Earth-based & spatial missions photographs.
 
 ## install & launch
 
@@ -41,7 +42,7 @@ sh ./42MapGenerator --no-update --no-timeout
 ## preset regions
 
 <img src="http://i.imgur.com/g7dFnE9.png" align="right" height="725">
-##### IGN :fr:
+##### IGN
 
 * France Métropolitaine
 * DOM-TOM: Guadeloupe
@@ -50,7 +51,13 @@ sh ./42MapGenerator --no-update --no-timeout
 * DOM-TOM: Guyane
 * DOM-TOM: Saint Martin - Saint Barthélémy
 
-##### NOAA / MGDS :us:
+##### USGS
+
+* Earth's moon
+* Venus
+* Mars (soon available)
+
+##### NOAA / MGDS
 
 * Whole world *(MGDS only)*
 * Antarctic *(MGDS only)*
@@ -103,18 +110,27 @@ NODATA_value  -9999
 
 ## credits
 
-* **MNT BD Alti®**
+* **`MNT BD Alti®`**
+
   IGN National Institute of Geographic and Forest Information / France
   http://professionnels.ign.fr/bdalti
 
-* **NGDC Grid Extraction Tool**
+* **`NGDC Grid Extraction Tool`**
+
   NOAA National Oceanic and Atmospheric Administration / USA
   http://maps.ngdc.noaa.gov/viewers/wcs-client
 
-* **GMRT Map Tool**
+* **`GMRT Map Tool`**
+
   MGDS Marine Geoscience Data System / USA
   Ryan, W.B.F., S.M. Carbotte, J.O. Coplan, S. O'Hara, A. Melkonian, R. Arko, R.A. Weissel, V. Ferrini, A. Goodwillie, F. Nitsche, J. Bonczkowski, and R. Zemsky (2009), Global Multi-Resolution Topography synthesis, Geochem. Geophys. Geosyst., 10, Q03014, doi: 10.1029/2008GC002332
   http://www.marine-geo.org/tools/GMRTMapTool/
 
-* **Google Geocoding API**
+* **`USGS Planetary GIS Web Server`**
+
+  USGS Astrogeology Science Center / USA
+  http://webgis.wr.usgs.gov/pigwad/down/index.html
+
+* **`Google Geocoding API`**
+
   https://developers.google.com/maps/documentation/geocoding/le

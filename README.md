@@ -97,7 +97,7 @@ Before downloading and generating a custom map, you can request for an online pr
 
 ## about FdF format
 
-The pedagogical project **Fil de Fer (FdF)** consists in creating a C program that displays a graphical representation of a land. The program takes a path to a file as argument which contains topography data.
+The pedagogical project **Fil de Fer (FdF)** consists in creating a C program that displays a graphical representation of a land. The program takes as first argument a path to a file which contains topography data.
 
 A map for the project FdF is a simple text file based on the standard  [*ARC/INFO Grid Format*](https://en.wikipedia.org/wiki/Esri_grid) whose headers are removed.
 

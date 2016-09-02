@@ -1,6 +1,6 @@
 # 42MapGenerator (v2)
 
-<img src="http://i.imgur.com/wnXCjUK.png" align="right" />42MapGenerator is a tiny bash script developed at School 42 (Paris) for downloading and generating maps of the **real world**, **the Earth's moon** and the planet **Venus** for the pedagogical project **Fil de Fer (FdF)**.
+<img align="right"  src="./assets/42MapGenerator_cropped.png" width="45%" />42MapGenerator is a tiny bash script developed at School 42 (Paris) for downloading and generating maps of the **real world**, **the Earth's moon** and the planet **Venus** for the pedagogical project **Fil de Fer (FdF)**.
 
 It allows you to find by name the coordinates of a country or a city thanks to the **Google Geocoding API** and to reduce the exported file size by providing 5 different formats (XXL, XL, L, M, S).
 

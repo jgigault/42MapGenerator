@@ -14,7 +14,7 @@ then
 
   DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="NOAA (National Oceanic and Atmospheric Administration / USA)"
   DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="Horizontal accuracy up to 1852 meters"
-  DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="http://mapserver.ngdc.noaa.gov/cgi-bin/public/wcs/etopo1.asc?request=getcoverage&version=1.0.0&service=wcs&coverage=etopo1&CRS=EPSG:4326&format=aaigrid&resx=0.016666666666666667&resy=0.016666666666666667&bbox=MAPGEN_MAPBOX&filename=tmp.asc"
+  DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="https://gis.ngdc.noaa.gov/cgi-bin/public/wcs/etopo1.asc?request=getcoverage&version=1.0.0&service=wcs&coverage=etopo1&CRS=EPSG:4326&format=aaigrid&resx=0.016666666666666667&resy=0.016666666666666667&bbox=MAPGEN_MAPBOX&filename=tmp.asc"
   DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="ocean_topography_available"
   DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="NOAA"
 

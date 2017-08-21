@@ -37,6 +37,7 @@ then
     URL_REQUEST=${URL_REQUEST/MAPGEN_EAST/${EAST}}
     URL_REQUEST=${URL_REQUEST/MAPGEN_SOUTH/${SOUTH}}
     URL_REQUEST=${URL_REQUEST/MAPGEN_WEST/${WEST}}
+    MY_EXPORT_URL="${URL_REQUEST}"
     if [ ! -f "${MAPS_TMPDIR}${TMPFILENAME}" ]
     then
       download_map "${TMPFILENAME}" "${URL_REQUEST}" && check_headers "${TMPFILENAME}"
@@ -51,7 +52,7 @@ then
     create_tmp_dir
     display_header
     display_section
-    printf "${C_BLUE}  %s\n\n" "Downloading $1 from remote server..."
+    printf "${C_BLUE}  %s\n  %s\n\n" "Downloading $1 from remote server..." "$2"
     sleep 0.5
     (curl --show-error --output "${MAPS_TMPDIR}$1" "$2") &
     display_spinner $!
@@ -169,6 +170,7 @@ then
       display_section
       display_error "The file downloaded from the remote server is corrupted"
       display_error "Maybe the requested region is too large or is not supported"
+      display_error "${MY_EXPORT_URL}"
       printf "\n"
       display_menu\
         "" ""\

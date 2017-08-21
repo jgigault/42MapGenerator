@@ -54,7 +54,7 @@ then
 
   function set_ocean_topography
   {
-    local MY_EXPORT_PATH_FILENAME
+    local MY_EXPORT_PATH_FILENAME MY_EXPORT_URL
     OCEAN_TOPOGRAPHY="$1"
     case "${MAPS[$((${MAPS_ID} + 2))]}" in
       "download_and_extract_zip")

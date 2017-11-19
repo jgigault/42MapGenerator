@@ -4,6 +4,8 @@ if [ "${MAPGENERATOR_SH}" == "1" ]
 then
 
   declare MAPS_TMPDIR="./tmp/"
+  declare CONFIG_ORIGINAL_REPOSITORY_HOST="github.coms"
+  declare CONFIG_ORIGINAL_REPOSITORY_ID="jgigault/42MapGenerator.git"
 
   function utils_set_env
   {

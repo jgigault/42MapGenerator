@@ -12,6 +12,7 @@ then
     then
       COLUMNS=80
     fi
+    GLOBAL_DISK_USAGE="$(du -ms | awk '$2 == "." {print $1}')"
     export LC_NUMERIC=C LC_COLLATE=C LANG=C
   }
 

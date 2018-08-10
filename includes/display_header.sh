@@ -14,7 +14,7 @@ then
     then
       COLOR="${C_INVERTGREY}"
     fi
-    if [ "${GLOBAL_LOCALBRANCH}" == "master" ]
+    if [ "${GLOBAL_LOCALBRANCH}" != "master" ]
     then
       display_leftandright "${COLOR}" "${COLOR}" "${COLOR}" "DEVELOPMENT MODE" "${GLOBAL_LOCALBRANCH}"
     else

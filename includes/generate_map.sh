@@ -201,13 +201,24 @@ then
       display_success "Export was successful!"
       display_success "Map size:  ${EXPORTED_NCOLS} x ${EXPORTED_NROWS} (width x height)"
       display_success "File size: ${EXPORTED_FILESIZE}"
+      printf "\n"
+      display_menu\
+        "" ""\
+        "${RETURNFUNCTION}" "OK"\
+        generate_map_open_export_directory "OPEN EXPORT DIRECTORY"
     else
       display_error "An error occured, no file exported"
+      printf "\n"
+      display_menu\
+        "" ""\
+        "${RETURNFUNCTION}" "OK"
     fi
-    printf "\n"
-    display_menu\
-      "" ""\
-      "${RETURNFUNCTION}" "OK"
+  }
+
+  function generate_map_open_export_directory
+  {
+    open "${MY_EXPORT_PATH}"
+    ${RETURNFUNCTION}
   }
 
 fi

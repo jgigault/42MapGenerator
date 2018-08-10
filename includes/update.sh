@@ -21,10 +21,11 @@ then
 
   function utils_update_check
   { if [ "${OPT_NO_UPDATE}" == "0" -a "${GLOBAL_LOCALBRANCH}" != "master" ]; then
-    local FORCE_UPDATE UPTODATE VERSION RET0 RET1 LOCALHASH REMOTEHASH REMOTEFETCHURL
+    local FORCE_UPDATE UPTODATE VERSION RET0 RET1 LOCALHASH REMOTEHASH REMOTEFETCHURL TOPLEVELINSTALLDIR
 
     FORCE_UPDATE=${1}
     REMOTEFETCHURL=$(git remote get-url origin)
+    TOPLEVELINSTALLDIR=$(git rev-parse --show-toplevel)
     display_header
     printf "${C_BLUE}  %s\n" "Checking for updates..."
     git fetch origin
@@ -52,15 +53,16 @@ then
         ;;
       "ERR2")
         display_header "${C_INVERTRED}"
-        display_error "Your local installation is not linked to the original repository \"${CONFIG_ORIGINAL_REPOSITORY_ID}\" on \"${CONFIG_ORIGINAL_REPOSITORY_HOST}\", but to the following remote URL:"
+        display_error "42MapGenerator tried to update your local installation but it is not linked to the original repository \"${CONFIG_ORIGINAL_REPOSITORY_ID}\" on \"${CONFIG_ORIGINAL_REPOSITORY_HOST}\", but to the following remote URL:"
         display_error " "
-        display_center "${REMOTEFETCHURL}"
+        display_error "Remote directory: ${REMOTEFETCHURL}"
+        display_error "Local directory:  ${TOPLEVELINSTALLDIR}"
         display_error " "
-        display_error "Are you sure to continue erasing your local version with the one from this remote URL?"
+        display_error "If you confirm the update, it will erase your local directory with the remote one."
         printf "\n"
         display_menu\
           "${C_INVERTRED}" ""\
-          "utils_update_check 1" "YES, CONTINUE"\
+          "utils_update_check 1" "YES, CONTINUE UPDATE AND ERASE LOCAL DIRECTORY"\
           "printf 'skip' > .myret" "NO, SKIP UPDATE"\
           "printf 'exit' > .myret" "EXIT"
         ;;

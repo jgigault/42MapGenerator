@@ -45,7 +45,7 @@ then
             MENU[$TOTAL]="${!MAPSA}"
             if [ "${MAPS[$((${MAPSA} * ${MAPS_SHIFT} + 3))]}" != "" ]
             then
-              TITLE=`echo "${MAPS[$((${MAPSA} * ${MAPS_SHIFT}))]} (${MAPS[$((${MAPSA} * ${MAPS_SHIFT} + 3))]})" | sed 's/%/%%/g'`
+              TITLE=`echo "${MAPS[$((${MAPSA} * ${MAPS_SHIFT}))]} (Download size: ${MAPS[$((${MAPSA} * ${MAPS_SHIFT} + 3))]})" | sed 's/%/%%/g'`
             else
               TITLE=`echo "${MAPS[$((${MAPSA} * ${MAPS_SHIFT}))]}" | sed 's/%/%%/g'`
             fi

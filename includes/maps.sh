@@ -306,7 +306,7 @@ then
   MAPS[${#MAPS[*]}]=""
   MAPS[${#MAPS[*]}]=""
   MAPS[${#MAPS[*]}]=""
-  MAPS[${#MAPS[*]}]="http://pubs.usgs.gov/of/2006/1367/dems/Arc_grids/ULCN2005_grid.txt.gz"
+  MAPS[${#MAPS[*]}]="https://pubs.usgs.gov/of/2006/1367/dems/Arc_grids/ULCN2005_grid.txt.gz"
 
   MAPS[${#MAPS[*]}]="Venus"
   MAPS[${#MAPS[*]}]="JoliotCurie_preliminary%JoliotCurie_mrg.asc"

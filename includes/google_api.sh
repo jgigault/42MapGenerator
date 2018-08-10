@@ -95,7 +95,7 @@ then
       fi
       printf "${C_WHITE}"
       tput cnorm
-      read -p "  Type a ${ADDRESSTYPE} name: " -e TITLE
+      read -p "  Type a ${ADDRESSTYPE} name (in English): " -e TITLE
       tput civis
       printf "${C_CLEAR}"
       if [ "${TITLE}" == "" ]

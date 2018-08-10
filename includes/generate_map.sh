@@ -11,7 +11,7 @@ then
       PREVIEWLINK="http://www.marine-geo.org/tools/gmrt_image_1.php?maptool=1\&north=$(utils_maps_get_coor "NORTH" "${MAPS_ID}")\&west=$(utils_maps_get_coor "WEST" "${MAPS_ID}")\&east=$(utils_maps_get_coor "EAST" "${MAPS_ID}")\&south=$(utils_maps_get_coor "SOUTH" "${MAPS_ID}")\&mask=0"
       display_menu\
         "" "Select a format:"\
-        "select_map_format XXL" "XXL (original data)"\
+        "select_map_format XXL" "XXL (raw data)"\
         "select_map_format XL" "XL  (reduce factor: 2)"\
         "select_map_format L" "L   (reduce factor: 4)"\
         "select_map_format M" "M   (reduce factor: 8)"\
@@ -23,7 +23,7 @@ then
     else
       display_menu\
         "" "Select a format:"\
-        "select_map_format XXL" "XXL (original data)"\
+        "select_map_format XXL" "XXL (raw data)"\
         "select_map_format XL" "XL (reduce factor: 2)"\
         "select_map_format L" "L (reduce factor: 4)"\
         "select_map_format M" "M (reduce factor: 8)"\
@@ -201,13 +201,24 @@ then
       display_success "Export was successful!"
       display_success "Map size:  ${EXPORTED_NCOLS} x ${EXPORTED_NROWS} (width x height)"
       display_success "File size: ${EXPORTED_FILESIZE}"
+      printf "\n"
+      display_menu\
+        "" ""\
+        "${RETURNFUNCTION}" "OK"\
+        generate_map_open_export_directory "OPEN EXPORT DIRECTORY"
     else
       display_error "An error occured, no file exported"
+      printf "\n"
+      display_menu\
+        "" ""\
+        "${RETURNFUNCTION}" "OK"
     fi
-    printf "\n"
-    display_menu\
-      "" ""\
-      "${RETURNFUNCTION}" "OK"
+  }
+
+  function generate_map_open_export_directory
+  {
+    open "${MY_EXPORT_PATH}"
+    ${RETURNFUNCTION}
   }
 
 fi

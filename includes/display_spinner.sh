@@ -5,7 +5,7 @@ then
 
   function display_spinner
   {
-    local pid=$1 total_delay=0 total_delay2=65 delay=0.2 spinstr='|/-\' SEL
+    local pid=$1 total_delay=0 total_delay2=130 delay=0.2 spinstr='|/-\' SEL
     CURRENT_CHILD_PROCESS_PID="${pid}"
     printf "${C_BLUE}"
     while [ "$(ps a | awk -v pid="${pid}" '$1 == pid {print $1}')" ];

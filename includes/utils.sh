@@ -4,6 +4,8 @@ if [ "${MAPGENERATOR_SH}" == "1" ]
 then
 
   declare MAPS_TMPDIR="./tmp/"
+  declare CONFIG_ORIGINAL_REPOSITORY_HOST="github.com"
+  declare CONFIG_ORIGINAL_REPOSITORY_ID="jgigault/42MapGenerator.git"
 
   function utils_set_env
   {
@@ -12,6 +14,7 @@ then
     then
       COLUMNS=80
     fi
+    GLOBAL_DISK_USAGE="$(du -ms | awk '$2 == "." {print $1}')"
     export LC_NUMERIC=C LC_COLLATE=C LANG=C
   }
 

@@ -20,7 +20,7 @@ then
 
   DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="MGDS (Marine Geoscience Data System / USA)"
   DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="Horizontal accuracy up to 100 meters"
-  DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="http://www.marine-geo.org/services/GridServer?minlongitude=MAPGEN_WEST&maxlongitude=MAPGEN_EAST&minlatitude=MAPGEN_SOUTH&maxlatitude=MAPGEN_NORTH&format=esriascii&layer=topo&resolution=high"
+  DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="https://www.gmrt.org/services/GridServer?minlongitude=MAPGEN_WEST&maxlongitude=MAPGEN_EAST&minlatitude=MAPGEN_SOUTH&maxlatitude=MAPGEN_NORTH&format=esriascii&layer=topo&resolution=high"
   DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="ocean_topography_available"
   DATA_PROVIDERS[${#DATA_PROVIDERS[*]}]="MGDS"
 

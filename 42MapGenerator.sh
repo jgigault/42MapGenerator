@@ -50,10 +50,13 @@ fi
 GLOBAL_INSTALLDIR=$(mapgen_install_dir)
 cd "${GLOBAL_INSTALLDIR}"
 
+GLOBAL_VERSION=2
+GLOBAL_DISK_USAGE=
+GLOBAL_LOCALBRANCH=$(git branch | awk '$0 ~ /^\*/ {print $2; exit}')
 MAPGENERATOR_SH=1
 RETURNPATH=$(pwd | sed 's/ /\ /g')
-CVERSION=$(git log --oneline 2>/dev/null | awk 'END {printf NR}' | sed 's/ //g')
-if [ "$CVERSION" == "" ]; then CVERSION="???"; fi
+GLOBAL_CVERSION=$(git log --oneline 2>/dev/null | awk 'END {printf NR}' | sed 's/ //g')
+if [ -z "${GLOBAL_CVERSION}" ]; then GLOBAL_CVERSION="???"; fi
 
 
 source includes/maps.sh
@@ -66,6 +69,7 @@ source includes/display_section.sh
 source includes/display_error.sh
 source includes/display_success.sh
 source includes/display_right.sh
+source includes/display_leftandright.sh
 source includes/display_spinner.sh
 source includes/generate_map.sh
 source includes/download_map.sh

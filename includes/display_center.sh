@@ -13,7 +13,7 @@ then
       printf "%"${MARGIN}"s" " "
       printf "$1"
       (( MARGIN= ${MARGIN} + (${COLUMNS} - ${LEN} - ${MARGIN} * 2) ))
-      printf "%"${MARGIN}"s" " "
+      printf "%"${MARGIN}"s\n" " "
     else
       printf "\n"
     fi
